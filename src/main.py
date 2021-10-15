@@ -18,7 +18,7 @@ def main():
         geo_df = retrive_stations_and_merge(retrived_prices)
         print(f'Retrived all the information, start processing at {time_()}')
         storage = process(geo_df)
-        print(f'Retrived all the information, start saving at {time_()}')
+        print(f'Retrived all the information, start saving at {time_()}, N={len(storage)}')
         save(storage)
         print(f'finished at {time_()}, total time={dt.datetime.now() - start}')
     
