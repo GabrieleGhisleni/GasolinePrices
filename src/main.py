@@ -13,7 +13,7 @@ def main():
     storage = process(geo_df)
     print(f'Retrived all the information, start saving at {time_()}')
     save(storage)
-    print(f'finished at {time_()}, total time={start - dt.datetime.now()}')
+    print(f'finished at {time_()}, total time={dt.datetime.now() - start}')
 
 
 if __name__ == '__main__':

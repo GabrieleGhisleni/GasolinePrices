@@ -62,8 +62,9 @@ def save(L:list, default_path = './data/prices_for_municipality') -> None:
         i = 0
         for comune in L:
             path = f"{default_path}/{comune['comune'].lower().replace(' ','-')}.json"
+            path = path.replaceAll("[^a-zA-Z0-9]", "")
             with open(path, 'w') as file:
-                json.dump(comune, file, indent=2)
+                json.dump(comune, file)
     except Exception as e:
         print(f"""Something went wrong with the path {e}.
                   Current path {os.getcwd()}
