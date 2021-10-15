@@ -2,7 +2,7 @@ name: scraper-gasoline-italian-prices
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '* * */1 * *'
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
           pip install -r requirements.txt
           
       - name: execute py script 
-        run: python src/main.py --default
+        run: python src/main.py --new
           
       - name: commit files
         run: |
