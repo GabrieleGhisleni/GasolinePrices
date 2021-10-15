@@ -1,1 +1,4 @@
+geopandas
+fiona
 pandas
+numpy
