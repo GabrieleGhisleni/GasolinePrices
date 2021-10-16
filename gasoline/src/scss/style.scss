@@ -1,9 +1,20 @@
+$background: rgb(127, 127, 192)!important;
+$bodyPadding: 20px!important;
 
 #navBrand{
     color:black;
-    background:blue;
 }
 
 #navBar{
-    color:black
+    background-color: $background
+}
+
+
+.primaryForm{
+    padding: $bodyPadding;
+    h5{
+        font-style: italic!important;
+        margin-bottom: 1rem;
+    }
+
 }

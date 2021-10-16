@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap-social/bootstrap-social.css';
 import { Footer } from "./Footer";
+import MainBody from "./MainBody";
 
 class Main extends Component{
 
@@ -12,11 +13,8 @@ class Main extends Component{
         return(
             <div>
                 <MyNavbar />
-                <Row>
-                    hey
-                    {/* <Body/> */}
-                </Row>
-                < Footer />
+                <MainBody />
+                <Footer />
             </div>
         )
     }

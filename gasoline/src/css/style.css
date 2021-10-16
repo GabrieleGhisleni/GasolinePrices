@@ -1,6 +1,11 @@
 #navBrand {
-  color: black;
-  background: blue; }
+  color: black; }
 
 #navBar {
-  color: black; }
+  background-color: #7f7fc0 !important; }
+
+.primaryForm {
+  padding: 20px !important; }
+  .primaryForm h5 {
+    font-style: italic !important;
+    margin-bottom: 1rem; }
