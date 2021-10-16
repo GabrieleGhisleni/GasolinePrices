@@ -4,16 +4,11 @@ import {Row, Col, FormGroup, Form, Label, Input, Button} from 'reactstrap';
 class DetailForm extends Component{
     constructor(props){
         super(props)
-        this.submitForm = this.submitForm.bind(this)
-    }
-
-    submitForm(event){
-        event.preventDefault()
     }
 
     render(){
         return(
-            <div className='primaryForm' onSubmit={this.submitForm}>
+            <div onSubmit={this.props.onSubmit}>
                 <h5>Find the cheapest gasoline stations</h5>
                 <p>
                     Inserisci il tuo comune, seleziona il tipo di carburante desiderato.
@@ -23,13 +18,13 @@ class DetailForm extends Component{
                     <FormGroup>
                         <Label htmlFor="comune">Comune </Label>
                         <Input type="text" name="comune" id="comune" placeholder="Seleziona il tuo comune"
-                        value={this.props.comune} onChange={this.props.inputComune} />
+                        value={this.props.comune} onChange={this.props.inputForm} />
                     </FormGroup>
 
                     <FormGroup>
                         <Label htmlFor="carburante">Seleziona Carburante</Label>
                         <Input type="select" name="carburante" id="carburante" 
-                        value={this.props.carburante} onChange={this.props.inputGasolio}>
+                        value={this.props.carburante} onChange={this.props.inputForm}>
                             <option value='Benzina'>Benzina</option>
                             <option value='Gasolio'>Gasolio</option>
                             <option value='GPL'>GPL</option>
@@ -41,14 +36,16 @@ class DetailForm extends Component{
                         <Label forHtml='carburanti'>Raggio di ricerca:</Label>
                     <div className='ml-auto'>
                     <FormGroup check inline>
-                            <Label check><Input type="radio" name='radio0' value={'3'}
-                            checked={this.props.area === "3"}/> 3 km </Label>
+                            <Label check><Input type="radio" 
+                            name='area' value={'3'}
+                            checked={this.props.area === "3"}
+                            onChange={this.props.inputForm}/> 3 km </Label>
                     </FormGroup>
                     <FormGroup check inline>
                         <Label check>
                             <Input type="radio" 
-                            name='radio1' value={'5'}
-                            onChange={this.props.inputArea}
+                            name='area' value={'5'}
+                            onChange={this.props.inputForm}
                             checked={this.props.area === "5"}/> 5 km</Label>
                     </FormGroup>
                     </div>
@@ -58,7 +55,6 @@ class DetailForm extends Component{
                             Cerca Benzinai
                         </Button>
                     </div>
-                    
                 </Form>
             </div>
     )};

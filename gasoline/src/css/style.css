@@ -1,11 +1,25 @@
-#navBrand {
-  color: black; }
-
 #navBar {
   background-color: #7f7fc0 !important; }
 
-.primaryForm {
+.footer {
+  align-content: center;
+  background-color: #7f7fc0 !important;
+  height: 100px; }
+
+.primaryRow {
   padding: 20px !important; }
-  .primaryForm h5 {
+  .primaryRow h5 {
     font-style: italic !important;
     margin-bottom: 1rem; }
+
+.mapContainer {
+  height: 37vw !important;
+  width: 100%;
+  position: inherit;
+  background-color: #7f7fc0 !important; }
+
+@media screen and (max-width: 600px) {
+  .mapContainer {
+    height: 120vw !important;
+    width: 100%;
+    position: inherit; } }

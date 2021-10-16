@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import DetailForm from "./DetailForm";
+import Map from "./Map";
 import {Row, Col} from 'reactstrap';
 
 class MainBody extends Component{
@@ -11,36 +12,34 @@ class MainBody extends Component{
             carburante: 'Benzina',
             area: '3'
         }
-        this.inputComune = this.inputComune.bind(this)
-        this.inputGasolio = this.inputGasolio.bind(this)
-        this.inputArea = this.inputArea.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
+        this.inputForm = this.inputForm.bind(this)
     }
 
-    inputComune(evt){
-        this.setState({comune: evt.target.value})
+    onSubmit(evt){
+        console.log('something will happpen', this.state)
+        evt.preventDefault()
+
     }
 
-    inputGasolio(evt){
-        this.setState({carburante: evt.target.value})
+    inputForm(evt){
+        this.setState({[evt.target.name] : evt.target.value})
     }
-
-    inputArea(evt){
-        this.setState({area: evt.target.value})
-    }
-
 
     render(){
         console.log('Main properties ', this.state)
         return(
             <React.Fragment>
-                    <Row>
+                    <Row className='primaryRow'>
                         <Col xs='11' sm='5' md='5' >
                             <DetailForm 
                             carburante = {this.state.carburante}
                             area = {this.state.area}
-                            inputComune={this.inputComune}
-                            inputGasolio = {this.inputGasolio}
-                            inputArea = {this.inputArea} />
+                            inputForm = {this.inputForm}
+                            onSubmit = {this.onSubmit} />
+                        </Col>
+                        <Col xs='12' sm='7'>
+                            <Map />
                         </Col>
                     </Row>
             </React.Fragment>
