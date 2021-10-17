@@ -49,8 +49,11 @@ class DataProcess:
         second_buffer_stations, buffer_2  = self.create_buffer_and_locations(name_comune, 3000)
         third_buffer_stations, buffer_3  = self.create_buffer_and_locations(name_comune, 5000)
         buffer_geometry, agg = [buffer_2, buffer_3], [second_buffer_stations, third_buffer_stations]
-        res['buffer_3'] = mapping(buffer_2)
-        res['buffer_5'] = mapping(buffer_3)
+        
+
+
+        res['buffer_3'] = [{'type': 'Feature', 'properties': {}, 'geometry': mapping(buffer_2)}]
+        res['buffer_5'] = [{'type': 'Feature', 'properties': {}, 'geometry': mapping(buffer_3)}]
         res['centroid'] = mapping(buffer_2.centroid)
 
         for gasoline in self.unique_gasoline:

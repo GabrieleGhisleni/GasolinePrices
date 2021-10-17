@@ -11,14 +11,11 @@ class MainBody extends Component{
             comune: null,
             carburante: 'Benzina',
             area: '3',
-            zoom: 6,
-            buffer: [],
             action:null,
             stations:[
                 {"id": 25733, "Gestore": "LIGURIA GAS S.R.L.", "Bandiera": "Pompe Bianche", "Nome Impianto": "LIGURIA GAS", "Indirizzo": "VIA GUGLIELMO MARCONI SN 24040", "Comune": "suisio", "geometry": {"type": "Point", "coordinates": [9.51567828655243, 45.658138658636645]}, "price": 1.678, "date": "11/10/2021 11:53:41"}
             ]
         }
-        
         
         this.onSubmit = this.onSubmit.bind(this)
         this.inputForm = this.inputForm.bind(this)
@@ -32,15 +29,20 @@ class MainBody extends Component{
             .then(data => {
                 let carburante = this.state.carburante;
                 let area = this.state.area;
-                this.setState({buffer: data[carburante][area]['multipolygon']['coordinates']})
+
+                this.setState({buffer: data[`buffer_${area}`]})
                 this.setState({zoom: 3})
+                this.setState({centroid: data['centroid']})
+                this.setState({stations: data[carburante][area]})
+
                 this.setState({action: true})
+                
+
             })
             .catch(err => {
                 console.log(err.message)
             })
         
-        console.log('on SUBMINT mainn', this.state)
         evt.preventDefault()
 
     }
@@ -50,7 +52,6 @@ class MainBody extends Component{
     }
 
     render(){
-        console.log('Main properties in MAIN ', this.state)
         return(
             <React.Fragment>
                     <Row className='primaryRow'>

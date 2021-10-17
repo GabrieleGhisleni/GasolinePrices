@@ -2,35 +2,26 @@ import React, { Component } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Polygon} from 'react-leaflet';
 import { useMapEvents, useMap, setCenter, GeoJSON} from 'react-leaflet';
 import data from './../shared/it_macro_regions.json';
+import {CreateMarkers} from './Markers';
 
 function MarkersComponent({props}){
     const map = useMap()
     if (props.action){
-        console.log(data)
-        const coords =[
-          {lat: 45.669540,lng: 9.496720},
-          {lat: 43.669540, lng: 9.496720},
-          
-        ]
-        console.log('here', map.getCenter(), 'props',props)
         map.setZoom(13)
-        map.flyTo([45.669540,9.496720])
+        map.flyTo([props.centroid.coordinates[1],props.centroid.coordinates[0]])
+
+        console.log('BUFFER' , props.buffer)
+
         return(<React.Fragment>
-                <Marker position={[45.669540, 9.496720]}>
-                    <Popup>Hello world</Popup>
-                </Marker>
-                <Marker position={[45.669540, 9.506722]}>
-                    <Popup>Hello world</Popup>
-                </Marker>
-                <Marker position={[45.669540, 9.456725]}>
-                    <Popup>Hello world</Popup>
-                </Marker>
-                <Polygon color={'red'} positions={coords}/>
+                <CreateMarkers markers = {props.stations}
+                                 slice={5}
+                                 carburante={props.carburante}/>
                 </React.Fragment>
         )
     } 
     else{
-            return null
+            return <GeoJSON data={data.features}/>
+                
 
     }
 }
@@ -38,19 +29,16 @@ function MarkersComponent({props}){
 
 
 export const FunctionalMap = ({props}) => {
-    console.log(data.features)
-
+    console.log('righ', data.features)
     return(
             <MapContainer 
                 center={[props.coordinates[0], props.coordinates[1]]} 
-                zoom={props.zoom} 
+                zoom={6}
                 scrollWheelZoom={false} 
                 className='mapContainer'>
                 <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                <GeoJSON data={data.features}/>
-                
                 <MarkersComponent props={props} />
             </MapContainer>
 
