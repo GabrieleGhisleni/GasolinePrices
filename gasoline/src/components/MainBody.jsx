@@ -24,18 +24,26 @@ class MainBody extends Component{
 
 
     onSubmit(evt){
-        fetch(this.baseUrl + 'medolago.json')
+        let comune = evt.target.comune.value
+        comune = comune.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z\s])/g, '')
+        comune = comune.replace("'",'')
+        comune = comune.replace(" ",'-')
+        comune += '.json'
+        fetch(this.baseUrl + comune)
             .then(response => response.json())
+            .then(data => console.log(data))
             .then(data => {
                 let carburante = this.state.carburante;
                 let area = this.state.area;
 
-                this.setState({buffer: data[`buffer_${area}`]})
+                this.setState({buffer_3: data[`buffer_3`]})
+                this.setState({buffer_5: data[`buffer_5`]})
                 this.setState({zoom: 3})
                 this.setState({centroid: data['centroid']})
                 this.setState({stations: data[carburante][area]})
 
                 this.setState({action: true})
+                
                 
 
             })
@@ -63,7 +71,9 @@ class MainBody extends Component{
                             onSubmit = {this.onSubmit} />
                         </Col>
                         <Col xs='12' sm='7' className='text-center'>
-                            < FunctionalMap props={this.state} />
+                            <FunctionalMap 
+                            props={this.state}
+                            finished = {this.finishedAction}/>
                         </Col>
                     </Row>
             </React.Fragment>

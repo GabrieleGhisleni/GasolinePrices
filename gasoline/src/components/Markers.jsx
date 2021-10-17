@@ -7,7 +7,7 @@ function getIcon(url, size){
     return L.icon({
         iconUrl : url,
         iconSize:  size, 
-        iconAnchor:   [22, 94],
+        iconAnchor:   [0, 0],
         popupAnchor:  [-15, -90]
     }
 

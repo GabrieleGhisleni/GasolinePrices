@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import {Row, Col, FormGroup, Form, Label, Input, Button} from 'reactstrap';
+import TextInput from 'react-autocomplete-input';
+import 'react-autocomplete-input/dist/bundle.css';
+
 
 class DetailForm extends Component{
-    constructor(props){
-        super(props)
-    }
+    state = {'val':''};
 
     render(){
         return(
@@ -16,6 +17,7 @@ class DetailForm extends Component{
                 </p>
                 <Form>
                     <FormGroup>
+
                         <Label htmlFor="comune">Comune </Label>
                         <Input type="text" name="comune" id="comune" placeholder="Seleziona il tuo comune"
                         value={this.props.comune} onChange={this.props.inputForm} />
@@ -55,6 +57,7 @@ class DetailForm extends Component{
                             Cerca Benzinai
                         </Button>
                     </div>
+                    
                 </Form>
             </div>
     )};
@@ -62,3 +65,58 @@ class DetailForm extends Component{
 
 
 export default DetailForm;
+
+// <AutoComplete
+//         getItemValue={(item) => item.name}
+//         items={members.filter((member) => member.name.includes(name))}
+//         renderItem={(item, isHighlighted) => (
+//           <div
+//             style={{
+//               verticalAlign: "middle",
+//               background: isHighlighted ? "lightgray" : "white"
+//             }}
+//           >
+//             <a
+//               target="_blank"
+//               rel="noreferrer"
+//               href={item.twitter}
+//               style={{
+//                 border: "none",
+//                 backgroundColor: "none",
+//                 padding: 0,
+//                 dipslay: "inline-block"
+//               }}
+//             >
+//               <img
+//                 alt="icon"
+//                 src={item.icon}
+//                 style={{ width: 30, height: 30 }}
+//               />
+//             </a>
+//             <div style={{ display: "inline-block", minWidth: 200 }}>
+//               {item.name}
+//             </div>
+//           </div>
+//         )}
+//         wrapperStyle={{
+//           position: "relative",
+//           border: "solid 1px #800"
+//         }}
+//         menuStyle={{
+//           border: "solid 2px #080",
+//           backgroundColor: "#dfd",
+//           zIndex: 2,
+//           position: "absolute",
+//           top: 30,
+//           left: 0,
+//           overflow: "auto",
+//           maxHeight: 100
+//         }}
+//         value={name || ""}
+//         inputProps={{
+//           placeholder: "input name",
+//           style: { fontSize: 14, width: "100%", padding: 3 }
+//         }}
+//         onChange={(e) => setName(e.target.value)}
+//         onSelect={(name) => setName(name)}
+//       />
