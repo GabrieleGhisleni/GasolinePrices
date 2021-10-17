@@ -16,7 +16,7 @@ class Stations:
                       Current working directory {os.getcwd()})""")
     
     def refresh_storage(self) -> None:
-        df_impianti = pd.read_csv(url_impianti, delimiter=';', skiprows=1)
+        df_impianti = pd.read_csv(self.gov_url, delimiter=';', skiprows=1)
         geometry = gpd.points_from_xy(df_impianti.Longitudine, df_impianti.Latitudine)
         geo_stations = gpd.GeoDataFrame(df_impianti, crs='EPSG:4326', geometry=geometry)
         geo_stations = geo_stations.loc[:, ['idImpianto', 'Gestore','Bandiera', 'Nome Impianto','Indirizzo', 'Comune', 'geometry']]

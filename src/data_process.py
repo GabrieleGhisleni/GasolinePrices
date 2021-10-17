@@ -31,14 +31,14 @@ class DataProcess:
         municipalities = self.df.Comune.unique()
         municipalities = self.municipalities.COMUNE.unique()
         for municipality in municipalities:
-            if municipality == 'medolago:
-                try:
-                    self.gasoline_types(municipality)
-                except Exception():
-                    total_error += 0
-                actual += 1
-                if actual%1000 == 0: 
-                    print(f'actual={actual}, remaining={remaining-actual}, execution time: {dt.datetime.now() - start}')
+            try:
+                self.gasoline_types(municipality)
+            except Exception as e :
+                total_error += 1
+                print(e)
+            actual += 1
+            if actual%1000 == 0: 
+                print(f'actual={actual}, remaining={remaining-actual}, execution time: {dt.datetime.now() - start}')
         print(f'Skipped {total_error}')
         
 
@@ -51,7 +51,7 @@ class DataProcess:
         buffer_geometry, agg = [buffer_2, buffer_3], [second_buffer_stations, third_buffer_stations]
         res['buffer_3'] = mapping(buffer_2)
         res['buffer_5'] = mapping(buffer_3)
-        res['centroid'] = res['buffer_3'].centroid
+        res['centroid'] = mapping(buffer_2.centroid)
 
         for gasoline in self.unique_gasoline:
             i, j = [3,5], 0
@@ -66,7 +66,6 @@ class DataProcess:
                                                     agg[j], 
                                                     avoid_duplicated)
                 j+=1
-
         self.save(res)
 
 
