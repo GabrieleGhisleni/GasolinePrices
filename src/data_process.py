@@ -31,13 +31,14 @@ class DataProcess:
         municipalities = self.df.Comune.unique()
         municipalities = self.municipalities.COMUNE.unique()
         for municipality in municipalities:
-            try:
-                self.gasoline_types(municipality)
-            except Exception():
-                total_error += 0
-            actual += 1
-            if actual%1000 == 0: 
-                print(f'actual={actual}, remaining={remaining-actual}, execution time: {dt.datetime.now() - start}')
+            if municipality == 'medolago:
+                try:
+                    self.gasoline_types(municipality)
+                except Exception():
+                    total_error += 0
+                actual += 1
+                if actual%1000 == 0: 
+                    print(f'actual={actual}, remaining={remaining-actual}, execution time: {dt.datetime.now() - start}')
         print(f'Skipped {total_error}')
         
 
@@ -48,6 +49,9 @@ class DataProcess:
         second_buffer_stations, buffer_2  = self.create_buffer_and_locations(name_comune, 3000)
         third_buffer_stations, buffer_3  = self.create_buffer_and_locations(name_comune, 5000)
         buffer_geometry, agg = [buffer_2, buffer_3], [second_buffer_stations, third_buffer_stations]
+        res['buffer_3'] = mapping(buffer_2)
+        res['buffer_5'] = mapping(buffer_3)
+        res['centroid'] = res['buffer_3'].centroid
 
         for gasoline in self.unique_gasoline:
             i, j = [3,5], 0
@@ -55,7 +59,7 @@ class DataProcess:
             avoid_duplicated = set()
             for buff in agg:
                 multipolygon = mapping(buffer_geometry[j].simplify(500))
-                res[gasoline][i[j]] = dict(price=[], multipolygon=multipolygon) 
+                res[gasoline][i[j]] = dict(price=[]) 
                 if not agg[j].empty:
                     sorted_prices = self.sort_prices(gasoline, 
                                                     res[gasoline][(i[j])]["price"], 

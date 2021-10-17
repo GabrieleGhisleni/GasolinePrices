@@ -1,23 +1,46 @@
 import React, { Component } from "react";
 import DetailForm from "./DetailForm";
-import Map from "./Map";
+import { FunctionalMap } from "./Map";
 import {Row, Col} from 'reactstrap';
 
 class MainBody extends Component{
     constructor(props){
         super(props)
         this.state = {
-            defaultCoordinates : [0,0],
+            coordinates : [41.8933203,12.4829321],
             comune: null,
             carburante: 'Benzina',
-            area: '3'
+            area: '3',
+            zoom: 6,
+            buffer: [],
+            action:null,
+            stations:[
+                {"id": 25733, "Gestore": "LIGURIA GAS S.R.L.", "Bandiera": "Pompe Bianche", "Nome Impianto": "LIGURIA GAS", "Indirizzo": "VIA GUGLIELMO MARCONI SN 24040", "Comune": "suisio", "geometry": {"type": "Point", "coordinates": [9.51567828655243, 45.658138658636645]}, "price": 1.678, "date": "11/10/2021 11:53:41"}
+            ]
         }
+        
+        
         this.onSubmit = this.onSubmit.bind(this)
         this.inputForm = this.inputForm.bind(this)
+        this.baseUrl = "https://raw.githubusercontent.com/GabrieleGhisleni/GasolinePrices/master/data/prices_for_municipality/"
     }
 
+
     onSubmit(evt){
-        console.log('something will happpen', this.state)
+        fetch(this.baseUrl + 'medolago.json')
+            .then(response => response.json())
+            .then(data => {
+                let carburante = this.state.carburante;
+                let area = this.state.area;
+                this.setState({buffer: data[carburante][area]['multipolygon']['coordinates']})
+                this.setState({zoom: 3})
+                this.setState({action: true})
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
+        
+        console.log('on SUBMINT mainn', this.state)
         evt.preventDefault()
 
     }
@@ -27,7 +50,7 @@ class MainBody extends Component{
     }
 
     render(){
-        console.log('Main properties ', this.state)
+        console.log('Main properties in MAIN ', this.state)
         return(
             <React.Fragment>
                     <Row className='primaryRow'>
@@ -38,8 +61,8 @@ class MainBody extends Component{
                             inputForm = {this.inputForm}
                             onSubmit = {this.onSubmit} />
                         </Col>
-                        <Col xs='12' sm='7'>
-                            <Map />
+                        <Col xs='12' sm='7' className='text-center'>
+                            < FunctionalMap props={this.state} />
                         </Col>
                     </Row>
             </React.Fragment>
