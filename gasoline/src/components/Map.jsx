@@ -4,8 +4,8 @@ import { useMapEvents, useMap, setCenter, GeoJSON} from 'react-leaflet';
 import data from './../shared/it_macro_regions.json';
 import {CreateMarkers} from './Markers';
 
+
 function BufferComponent({props}){
-    const map = useMap()
     if (props.action){
         if (props.area == '3'){
             return  <GeoJSON key={props.area.toString()} data={props.buffer_3} color={'green'}/>
@@ -18,11 +18,10 @@ function BufferComponent({props}){
     }
 }
 
-
 function MarkersComponent({props}){
     const map = useMap()
     if (props.action){
-        if (props.area === '3'){map.setZoom(13)}
+        if (props.area === '3'){map.setZoom(12.5)}
         else{map.setZoom(12)}
         map.flyTo([props.centroid.coordinates[1],props.centroid.coordinates[0]])
         return(<React.Fragment>
@@ -53,39 +52,3 @@ export const FunctionalMap = ({props}) => {
 
             )
 }
-
-
-
-
-// class Map extends Component{
-//     constructor(props){
-//         super(props)
-
-//     }  
-//     render(){
-//         console.log('zooom', this.props.zoom, typeof(this.props.zoom), 'poly', this.props.poly)
-
-//         return(
-
-//                 <MapContainer 
-//                     center={[this.props.coordinates[0], this.props.coordinates[1]]} 
-//                     zoom={this.props.zoom} 
-//                     scrollWheelZoom={false} 
-//                     className='mapContainer'>
-
-//                     <TileLayer
-//                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-//                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-
-//                     <Polygon pathOptions={{color:'red'}} positions={IT} />
-
-//                     <MarkersComponent />
-
-
-//                 </MapContainer>
-
-//         )
-//     }
-// }
-
-// export default Map;

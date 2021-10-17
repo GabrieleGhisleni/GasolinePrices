@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import {Row, Col, FormGroup, Form, Label, Input, Button} from 'reactstrap';
-import TextInput from 'react-autocomplete-input';
-import 'react-autocomplete-input/dist/bundle.css';
-
+import { Hint } from 'react-autocomplete-hint';
+import NAMES from './../shared/names.json'
 
 class DetailForm extends Component{
-    state = {'val':''};
 
     render(){
         return(
@@ -17,12 +15,13 @@ class DetailForm extends Component{
                 </p>
                 <Form>
                     <FormGroup>
-
                         <Label htmlFor="comune">Comune </Label>
-                        <Input type="text" name="comune" id="comune" placeholder="Seleziona il tuo comune"
-                        value={this.props.comune} onChange={this.props.inputForm} />
+                        <Hint options={NAMES.name} allowTabFill>
+                            <input type="text" name="comune" id="comune" placeholder="Comune"
+                            value={this.props.comune} onChange={this.props.inputForm}
+                            id = 'input' required/>
+                        </Hint>
                     </FormGroup>
-
                     <FormGroup>
                         <Label htmlFor="carburante">Seleziona Carburante</Label>
                         <Input type="select" name="carburante" id="carburante" 
@@ -57,7 +56,7 @@ class DetailForm extends Component{
                             Cerca Benzinai
                         </Button>
                     </div>
-                    
+                
                 </Form>
             </div>
     )};
