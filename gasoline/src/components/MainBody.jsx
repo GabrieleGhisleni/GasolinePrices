@@ -8,13 +8,11 @@ class MainBody extends Component{
         super(props)
         this.state = {
             coordinates : [41.8933203,12.4829321],
+            nstations : '10',
             comune: null,
             carburante: 'Benzina',
             area: '3',
             action:null,
-            stations:[
-                {"id": 25733, "Gestore": "LIGURIA GAS S.R.L.", "Bandiera": "Pompe Bianche", "Nome Impianto": "LIGURIA GAS", "Indirizzo": "VIA GUGLIELMO MARCONI SN 24040", "Comune": "suisio", "geometry": {"type": "Point", "coordinates": [9.51567828655243, 45.658138658636645]}, "price": 1.678, "date": "11/10/2021 11:53:41"}
-            ]
         }
         
         this.onSubmit = this.onSubmit.bind(this)
@@ -33,21 +31,25 @@ class MainBody extends Component{
         fetch(this.baseUrl + comune)
             .then(response => {
                 if (!response.ok) {
-                    console.log(response)
                     alert(`Comune non trovato: ${evt.target.comune.value}, status: ${response.status}`)
                     throw new Error('404 File not found')
                 }else{return response}})
             .then(response => response.json())
             .then(data => {
+                console.log('Data FROM API' ,data)
                 let carburante = this.state.carburante;
                 let area = this.state.area;
                 this.setState({buffer_3: data.buffer_3})
                 this.setState({buffer_5: data['buffer_5']})
                 this.setState({zoom: 3})
                 this.setState({centroid: data['centroid']})
-                this.setState({stations: data[carburante][area]})
-                this.setState({action: true})
+                this.setState({stations_3: data[carburante]['3']})
+                this.setState({stations_5: data[carburante]['5']})
+                this.setState({area_comune: data['area_comune']})
+                console.log('main', data[carburante]['3'])
     
+                this.setState({action: true})
+
             })
             .catch(err => {
                 console.log('Error Message While fetching: ', err.message)
@@ -64,8 +66,9 @@ class MainBody extends Component{
         return(
             <React.Fragment>
                     <Row className='primaryRow'>
-                        <Col xs='11' sm='5' md='5' >
+                        <Col xs='11' sm='5' md='5' className='align-items-center'>
                             <DetailForm 
+                            nstations = {this.state.nstations}
                             carburante = {this.state.carburante}
                             area = {this.state.area}
                             inputForm = {this.inputForm}
@@ -73,7 +76,7 @@ class MainBody extends Component{
                         </Col>
                         <Col xs='12' sm='7' className='text-center'>
                             <FunctionalMap 
-                            props={this.state}
+                            props = {this.state}
                             finished = {this.finishedAction}/>
                         </Col>
                     </Row>

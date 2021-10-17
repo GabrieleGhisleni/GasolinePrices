@@ -23,6 +23,7 @@ class DataProcess:
         self.unique_gasoline = self.df.gasoline_type.unique()
 
         self.municipalities.loc[:, 'COMUNE'] = self.municipalities.COMUNE.apply(lambda x: DataProcess.remove_punctuations(x))
+        self.boundary = self.municipalities.copy()
         self.municipalities.loc[:, 'geometry'] = municipalities.simplify(500)
 
 
@@ -49,7 +50,16 @@ class DataProcess:
         second_buffer_stations, buffer_2  = self.create_buffer_and_locations(name_comune, 3000)
         third_buffer_stations, buffer_3  = self.create_buffer_and_locations(name_comune, 5000)
         buffer_geometry, agg = [buffer_2, buffer_3], [second_buffer_stations, third_buffer_stations]
-        
+
+        tmp = self.boundary.loc[self.boundary.COMUNE==name_comune, :]
+        buffered = tmp.buffer(0)
+        if len(buffered) > 1: 
+            buffered = MultiPolygon(buffered.to_crs(epsg=4326).values)
+            buffered_4326 = buffered
+        else:
+            buffered_4326 = buffered.to_crs(epsg=4326).values[0]
+
+        res['area_comune'] = [{'type': 'Feature', 'properties': {}, 'geometry': mapping(buffered_4326)}]
         res['buffer_3'] = [{'type': 'Feature', 'properties': {'area': buffer_2.area}, 'geometry': mapping(buffer_2)}]
         res['buffer_5'] = [{'type': 'Feature', 'properties': {'area': buffer_3.area}, 'geometry': mapping(buffer_3)}]
         res['centroid'] = mapping(buffer_2.centroid)

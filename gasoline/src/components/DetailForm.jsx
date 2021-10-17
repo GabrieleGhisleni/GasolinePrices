@@ -33,24 +33,65 @@ class DetailForm extends Component{
                             <option>Gasolio High Quality</option>
                         </Input>
                     </FormGroup>
-                    <FormGroup >
-                        <Label forHtml='carburanti'>Raggio di ricerca:</Label>
-                    <div className='ml-auto'>
-                    <FormGroup check inline>
-                            <Label check><Input type="radio" 
-                            name='area' value={'3'}
-                            checked={this.props.area === "3"}
-                            onChange={this.props.inputForm}/> 3 km </Label>
-                    </FormGroup>
-                    <FormGroup check inline>
-                        <Label check>
-                            <Input type="radio" 
-                            name='area' value={'5'}
-                            onChange={this.props.inputForm}
-                            checked={this.props.area === "5"}/> 5 km</Label>
-                    </FormGroup>
+                    <Row>
+                    <Col xs={5}>
+                        <FormGroup >
+                            <Label forHtml='carburanti'>Raggio di ricerca:</Label>
+                        <div className='ml-auto'>
+                        <FormGroup check inline>
+                                <Label check><Input type="radio" 
+                                name='area' value={'3'}
+                                checked={this.props.area === "3"}
+                                onChange={this.props.inputForm}/> 3 km </Label>
+                        </FormGroup>
+                        <FormGroup check inline>
+                            <FormGroup check inline>
+                            <Label check>
+                                <Input type="radio" 
+                                name='area' value={'5'}
+                                onChange={this.props.inputForm}
+                                checked={this.props.area === "5"}/> 5 km</Label>
+                            </FormGroup>
+
+                        </FormGroup>
                     </div>
+                   
                     </FormGroup>
+                    </Col>
+                    <Col xs={5}>
+                        <FormGroup >
+                            <Label forHtml='risultati'>Numero di risultati:</Label>
+                        <div className='ml-auto'>
+                        <FormGroup check inline>
+                                <Label check><Input type="radio" 
+                                name='nstations' value={'5'}
+                                checked={this.props.nstations === "5"}
+                                onChange={this.props.inputForm}/> 5 </Label>
+                        </FormGroup>
+                        <FormGroup check inline>
+                            <FormGroup check inline>
+                            <Label check>
+                                <Input type="radio" 
+                                name='nstations' value={'10'}
+                                onChange={this.props.inputForm}
+                                checked={this.props.nstations === "10"}/> 10 </Label>
+                            </FormGroup>
+                        </FormGroup>
+                        <FormGroup check inline>
+                            <FormGroup check inline>
+                            <Label check>
+                                <Input type="radio" 
+                                name='nstations' value={'15'}
+                                onChange={this.props.inputForm}
+                                checked={this.props.nstations === "15"}/> 15 </Label>
+                            </FormGroup>
+                        </FormGroup>
+                    </div>
+                   
+                    </FormGroup>
+                    </Col>
+                    </Row>
+                    
                     <div style={{textAlign: 'right'}}>
                         <Button type='submit' color="primary" style={{marginBottom: '20px'}}>
                             Cerca Benzinai
