@@ -1,4 +1,4 @@
-{
+{"homepage": "http://gabrieleGhisleni.github.io/GasolinePrices",
   "name": "gasoline",
   "version": "0.1.0",
   "private": true,
@@ -24,8 +24,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "scss": "node-sass --watch src/scss -o src/css"
-  },
+    "scss": "node-sass --watch src/scss -o src/css",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+    }
+  ,
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -45,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@types/leaflet": "^1.7.5"
+    "@types/leaflet": "^1.7.5",
+    "gh-pages": "^3.2.3"
   }
 }

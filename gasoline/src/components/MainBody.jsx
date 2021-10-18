@@ -7,7 +7,7 @@ class MainBody extends Component{
     constructor(props){
         super(props)
         this.state = {
-            coordinates : [41.8933203,12.4829321],
+            first : true,
             nstations : '10',
             comune: null,
             carburante: 'Benzina',
@@ -57,6 +57,7 @@ class MainBody extends Component{
                 this.setState({stations_3: stat_3})
                 this.setState({stations_5: stat_5})
                 this.setState({area_comune: data['area_comune']})
+                this.setState({first: false})
                 this.setState({action: true})
 
             })

@@ -12,12 +12,12 @@ function BufferComponent({props}){
         if (props.area === '3'){
             var multipolygon = L.geoJson(props.buffer_3);
             map.flyToBounds(multipolygon.getBounds());
-            return <GeoJSON key={props.area.toString()} data={props.buffer_3} color={'green'} opacity={0.7}/>
+            return <GeoJSON key={props.area.toString()} data={props.buffer_3} color={'steelblue'} opacity={1}/>
 
         } else {
             var multipolygon = L.geoJson(props.buffer_5);
             map.flyToBounds(multipolygon.getBounds());
-            return  <GeoJSON key={props.area.toString()} data={props.buffer_5} color={'green'} opacity={0.7}/>
+            return  <GeoJSON key={props.area.toString()} data={props.buffer_5} color={'steelblue'} opacity={1}/>
         }}
 
     else {
@@ -28,7 +28,7 @@ function BufferComponent({props}){
 function ComuneArea({props}){
     if (props.action){
     return(
-        <GeoJSON key={props.comune} data={props.area_comune} color={'firebrick'} opacity={0.6}/>
+        <GeoJSON key={props.comune} data={props.area_comune} color={'saddlebrown'} opacity={1}/>
     );
     }
     else{return null}
@@ -46,15 +46,16 @@ function MarkersComponent({props}){
                 </React.Fragment>
         )
     } 
-    else{
+    else if (props.first){
         return <GeoJSON key={'default'} data={data.features}/>
     }
+    else {return null}
 }
 
 export const FunctionalMap = ({props}) => {
     return(
             <MapContainer 
-                center={[props.coordinates[0], props.coordinates[1]]} 
+                center={[41.8933203,12.4829321]} 
                 zoom={6}
                 scrollWheelZoom={true} 
                 className='mapContainer'>
