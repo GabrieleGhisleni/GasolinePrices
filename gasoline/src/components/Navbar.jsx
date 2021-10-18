@@ -17,7 +17,7 @@ class MyNavbar extends Component{
         return(
             <React.Fragment>
                 <Navbar light expand='md' id='navBar'>
-                    <NavbarBrand id='navBrand' className='mr-auto'>Gasoline Prices</NavbarBrand>
+                    <NavbarBrand id='navBrand' className='mr-auto'>Prezzi Gasolio</NavbarBrand>
                 </Navbar>
             </React.Fragment>
         );

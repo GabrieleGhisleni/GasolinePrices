@@ -24,38 +24,49 @@ class MainBody extends Component{
     onSubmit(evt){
         let comune = evt.target.comune.value
         comune = comune.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z\s])/g, '')
-        comune = comune.replace("'",'')
-        comune = comune.replace(" ",'-')
+        comune = comune.replaceAll("'",'')
+        comune = comune.replaceAll(" ",'-')
         comune = comune.toLowerCase()
         comune += '.json'
+        console.log(comune)
         fetch(this.baseUrl + comune)
             .then(response => {
                 if (!response.ok) {
-                    alert(`Comune non trovato: ${evt.target.comune.value}, status: ${response.status}`)
+                    alert(`Comune non trovato: ${evt.target.comune.value}`)
                     throw new Error('404 File not found')
                 }else{return response}})
             .then(response => response.json())
             .then(data => {
-                console.log('Data FROM API' ,data)
                 let carburante = this.state.carburante;
                 let area = this.state.area;
+
+                let stat_3 = data[carburante]['3'];
+                let stat_5 =  data[carburante]['5'];
+
+                let tmp = [...stat_3.price]
+                stat_5.price = stat_5.price.concat(tmp)
+                stat_5.price.sort((a,b) => {
+                    return a.price > b.price
+                })
+                console.log('3', stat_3)
+                console.log('5', stat_5)
                 this.setState({buffer_3: data.buffer_3})
                 this.setState({buffer_5: data['buffer_5']})
                 this.setState({zoom: 3})
                 this.setState({centroid: data['centroid']})
-                this.setState({stations_3: data[carburante]['3']})
-                this.setState({stations_5: data[carburante]['5']})
+                this.setState({stations_3: stat_3})
+                this.setState({stations_5: stat_5})
                 this.setState({area_comune: data['area_comune']})
-                console.log('main', data[carburante]['3'])
-    
                 this.setState({action: true})
 
             })
             .catch(err => {
                 console.log('Error Message While fetching: ', err.message)
             })  
-        evt.preventDefault()
 
+        
+        evt.preventDefault()
+        setTimeout(this.setState({action:false}), 1000)
     }
 
     inputForm(evt){
@@ -65,8 +76,8 @@ class MainBody extends Component{
     render(){
         return(
             <React.Fragment>
-                    <Row className='primaryRow'>
-                        <Col xs='11' sm='5' md='5' className='align-items-center'>
+                    <Row className='primaryRow align-items-center'>
+                        <Col xs='11' sm='5' md='5'>
                             <DetailForm 
                             nstations = {this.state.nstations}
                             carburante = {this.state.carburante}

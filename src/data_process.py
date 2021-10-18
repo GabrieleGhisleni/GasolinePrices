@@ -60,8 +60,8 @@ class DataProcess:
             buffered_4326 = buffered.to_crs(epsg=4326).values[0]
 
         res['area_comune'] = [{'type': 'Feature', 'properties': {}, 'geometry': mapping(buffered_4326)}]
-        res['buffer_3'] = [{'type': 'Feature', 'properties': {'area': buffer_2.area}, 'geometry': mapping(buffer_2)}]
-        res['buffer_5'] = [{'type': 'Feature', 'properties': {'area': buffer_3.area}, 'geometry': mapping(buffer_3)}]
+        res['buffer_3'] = [{'type': 'Feature', 'properties': {'area': buffer_2.to_crs(epsg=32632).area}, 'geometry': mapping(buffer_2)}]
+        res['buffer_5'] = [{'type': 'Feature', 'properties': {'area': buffer_3.to_crs(epsg=32632).area}, 'geometry': mapping(buffer_3)}]
         res['centroid'] = mapping(buffer_2.centroid)
 
         for gasoline in self.unique_gasoline:

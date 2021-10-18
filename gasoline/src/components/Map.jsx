@@ -1,27 +1,22 @@
 import React, { Component } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Polygon} from 'react-leaflet';
-import { useMapEvents, useMap, setCenter, GeoJSON} from 'react-leaflet';
+import { useMapEvents, useMap, setCenter, GeoJSON, flyToBounds, FeatureGroup} from 'react-leaflet';
 import data from './../shared/it_macro_regions.json';
 import {CreateMarkers} from './Markers';
+import L from 'leaflet';
 
 
 function BufferComponent({props}){
     const map = useMap()
     if (props.action){
         if (props.area === '3'){
-            let value = props.buffer_3[0].properties.area
-                if (value < 0.01){map.setZoom(12)}
-                else if (value < 0.0086){map.setZoom(12)}
-                else if (value < 0.01){map.setZoom(11)}
-                else{map.setZoom(9)}
-            return  <GeoJSON key={props.area.toString()} data={props.buffer_3} color={'green'} opacity={0.7}/>
+            var multipolygon = L.geoJson(props.buffer_3);
+            map.flyToBounds(multipolygon.getBounds());
+            return <GeoJSON key={props.area.toString()} data={props.buffer_3} color={'green'} opacity={0.7}/>
 
         } else {
-            let value = props.buffer_5[0].properties.area
-                if (value < 0.01){map.setZoom(10)}
-                else if (value < 0.1){map.setZoom(11)}
-                else if (value < 0.15){map.setZoom(10)}
-                else{map.setZoom(9)}
+            var multipolygon = L.geoJson(props.buffer_5);
+            map.flyToBounds(multipolygon.getBounds());
             return  <GeoJSON key={props.area.toString()} data={props.buffer_5} color={'green'} opacity={0.7}/>
         }}
 
@@ -40,13 +35,11 @@ function ComuneArea({props}){
 }
 
 function MarkersComponent({props}){
-    const map = useMap()
-
     if (props.action){
         var Tmp;
         if (props.area === '3'){Tmp = props.stations_3}
-        else{Tmp = props.stations_5}    
-        map.flyTo([props.centroid.coordinates[1],props.centroid.coordinates[0]])
+        else{Tmp = props.stations_5}  
+        
 
         return(<React.Fragment>
                     <CreateMarkers markers = {Tmp} slice={props.nstations} carburante={props.carburante}/>

@@ -8,16 +8,17 @@ class DetailForm extends Component{
     render(){
         return(
             <div onSubmit={this.props.onSubmit}>
-                <h5>Find the cheapest gasoline stations</h5>
-                <p>
-                    Inserisci il tuo comune, seleziona il tipo di carburante desiderato.
-                    potri inoltre specificare il raggio entro il quale cercare i distributori.
+                <h5>Trova i Benzinai più economici!</h5>
+                <p className='text-justify'>
+                    Inserisci il tuo comune e seleziona il tipo di carburante desiderato.
+                    Potrai inoltre specificare il raggio entro il quale cercare i distributori,
+                    clicca su 'Cerca Benzinai' e la mappa mostrerà i distributori più economici nella tua zona!
                 </p>
                 <Form>
                     <FormGroup>
                         <Label htmlFor="comune">Comune </Label>
                         <Hint options={NAMES.name} allowTabFill>
-                            <input type="text" name="comune" id="comune" placeholder="Comune"
+                            <input type="text" name="comune" className="form-control" placeholder="Comune"
                             value={this.props.comune} onChange={this.props.inputForm}
                             id = 'input' required/>
                         </Hint>
@@ -28,9 +29,11 @@ class DetailForm extends Component{
                         value={this.props.carburante} onChange={this.props.inputForm}>
                             <option value='Benzina'>Benzina</option>
                             <option value='Gasolio'>Gasolio</option>
+                            <option value='Gasolio High Quality'>Gasolio High Quality</option>
                             <option value='GPL'>GPL</option>
                             <option value='Metano'>Metano</option>
-                            <option>Gasolio High Quality</option>
+                            <option value='Blue Diesel'>Blue Diesel</option>
+                            <option value='Diesel High Quality'>Diesel High Quality</option>
                         </Input>
                     </FormGroup>
                     <Row>
@@ -58,7 +61,7 @@ class DetailForm extends Component{
                    
                     </FormGroup>
                     </Col>
-                    <Col xs={5}>
+                    <Col>
                         <FormGroup >
                             <Label forHtml='risultati'>Numero di risultati:</Label>
                         <div className='ml-auto'>
@@ -84,6 +87,15 @@ class DetailForm extends Component{
                                 name='nstations' value={'15'}
                                 onChange={this.props.inputForm}
                                 checked={this.props.nstations === "15"}/> 15 </Label>
+                            </FormGroup>
+                        </FormGroup>
+                        <FormGroup check inline>
+                            <FormGroup check inline>
+                            <Label check>
+                                <Input type="radio" 
+                                name='nstations' value={'100'}
+                                onChange={this.props.inputForm}
+                                checked={this.props.nstations === "100"}/> Mostra tutti </Label>
                             </FormGroup>
                         </FormGroup>
                     </div>

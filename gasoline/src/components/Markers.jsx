@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon} from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon, Tooltip} from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import L from 'leaflet'
 import { control } from 'leaflet';
@@ -16,37 +16,44 @@ function getIcon(url_c, size){
 }
 
 export const CreateMarkers = ({markers, slice, carburante}) => {
-    var i=0, size=[[15,15],[13,13]], color=[], url, sz;
+    var i=0, size=[[17,17],[15,15]], color=[], url, sz;
 
     var green = 'https://www.pikpng.com/pngl/b/36-369401_location-marker-icon-google-maps-pointer-elsavadorla-google.png'
     var orange = "https://www.pinclipart.com/picdir/big/79-798120_orange-map-pin-orange-location-icon-png-clipart.png"
     var red = 'https://cdn.pixabay.com/photo/2014/04/02/10/45/location-304467_1280.png'
-
     if (slice == 5){color = [green,orange,red,red,red]}
     else {
         color = [green,orange,orange,orange]
         for (let j = 0; j< (slice-3); j++ ){
-            size.push([11,11])
+            size.push([12,12])
             color.push(red)
         }
     }
-    
     const stations = markers.price.map((stat) => {
-        url = color.slice(i)
-        if (i==0){sz = [20,20]}
-        else{sz=[12,12]}
+        url = color.at(i)
+        sz = size.at(i)
+        if (sz === undefined){sz = [12,12]}
+        console.log(sz)
+        // if (i==0){sz = [20,20]}
+        // else{sz=[12,12]}
         i++
+        console.log(stat)
         return (<div className='popUp'>
                 <Marker 
                 position={[stat.geometry.coordinates[1],stat.geometry.coordinates[0]]}
-                icon = {getIcon(url, sz[0])}>
+                icon = {getIcon(url, sz)}>
+                    <Tooltip direction='top' offset={[1,0]} permanent><span style={{fontWeight:'bold'}}>{stat.price}</span></Tooltip> 
                     <Popup>
                         Prezzo {carburante}: <strong style={{fontSize:"1.2rem"}}>{stat.price}</strong> Euro/ litro <br/><br/>
                         Gestore: <span style={{fontSize:".7rem"}}>{stat.Gestore} </span><br/>
-                        Indirizzo: {stat.Indirizzo} <br/>
+                        Indirizzo: <a 
+                                    style={{fontSize:'0.6rem'}}
+                                    href= {`geo:${stat.geometry.coordinates[1]}, ${stat.geometry.coordinates[0]}}`} 
+                                    target='_blank'> {stat.Indirizzo} </a> <br/>
+                        Comune: {stat.Comune.charAt(0).toUpperCase() + stat.Comune.slice(1)}  <br/>
+                        Ultima rilevazione: {stat.date} <br/>
                         Bandiera: {stat.Bandiera} <br/>
-                        Comune: {stat.Comune}  <br/>
-                        Coordinates: {stat.geometry.coordinates[1]} {stat.geometry.coordinates[0]}
+                        ID: {stat.id } <br/>
                     </Popup>
                 </Marker>
                 </div>

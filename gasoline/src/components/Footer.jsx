@@ -5,7 +5,7 @@ export const Footer = () => {
     return(
         <Row className='align-items-center footer text-center'>
             <Col>
-                @Gabriele Ghisleni                    
+            <span style={{fontSize:'1.2rem', fontStyle:'italic'}}> @Gabriele Ghisleni     </span>               
             <List type="inline">
                         <ListInlineItem>
                             <a href='https://github.com/GabrieleGhisleni'><i class="fa fa-github fa-lg"></i></a>
