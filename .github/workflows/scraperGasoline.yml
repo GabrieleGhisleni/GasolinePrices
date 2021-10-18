@@ -2,7 +2,7 @@ name: scraper-gasoline-italian-prices
 
 on:
   schedule:
-    - cron: '0 0 0 0 /1'
+    - cron: '0 0 */3 * *'
 
 jobs:
   build:

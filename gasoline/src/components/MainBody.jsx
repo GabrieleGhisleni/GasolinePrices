@@ -39,17 +39,14 @@ class MainBody extends Component{
             .then(data => {
                 let carburante = this.state.carburante;
                 let area = this.state.area;
-
                 let stat_3 = data[carburante]['3'];
                 let stat_5 =  data[carburante]['5'];
-
                 let tmp = [...stat_3.price]
                 stat_5.price = stat_5.price.concat(tmp)
                 stat_5.price.sort((a,b) => {
                     return a.price > b.price
                 })
-                console.log('3', stat_3)
-                console.log('5', stat_5)
+
                 this.setState({buffer_3: data.buffer_3})
                 this.setState({buffer_5: data['buffer_5']})
                 this.setState({zoom: 3})
