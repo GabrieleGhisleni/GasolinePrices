@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/GasolinePrices/static/css/main.e8761110.chunk.css",
-    "main.js": "/GasolinePrices/static/js/main.bd5a59ff.chunk.js",
-    "main.js.map": "/GasolinePrices/static/js/main.bd5a59ff.chunk.js.map",
+    "main.js": "/GasolinePrices/static/js/main.ae750c0d.chunk.js",
+    "main.js.map": "/GasolinePrices/static/js/main.ae750c0d.chunk.js.map",
     "runtime-main.js": "/GasolinePrices/static/js/runtime-main.5d19e055.js",
     "runtime-main.js.map": "/GasolinePrices/static/js/runtime-main.5d19e055.js.map",
     "static/css/2.747cbacb.chunk.css": "/GasolinePrices/static/css/2.747cbacb.chunk.css",
@@ -21,6 +21,6 @@
     "static/css/2.747cbacb.chunk.css",
     "static/js/2.c7d3455c.chunk.js",
     "static/css/main.e8761110.chunk.css",
-    "static/js/main.bd5a59ff.chunk.js"
+    "static/js/main.ae750c0d.chunk.js"
   ]
 }
