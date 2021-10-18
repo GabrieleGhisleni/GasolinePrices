@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/GasolinePrices/static/css/main.d43359a5.chunk.css",
+    "main.js": "/GasolinePrices/static/js/main.59f1af6d.chunk.js",
+    "main.js.map": "/GasolinePrices/static/js/main.59f1af6d.chunk.js.map",
+    "runtime-main.js": "/GasolinePrices/static/js/runtime-main.5d19e055.js",
+    "runtime-main.js.map": "/GasolinePrices/static/js/runtime-main.5d19e055.js.map",
+    "static/css/2.747cbacb.chunk.css": "/GasolinePrices/static/css/2.747cbacb.chunk.css",
+    "static/js/2.c7d3455c.chunk.js": "/GasolinePrices/static/js/2.c7d3455c.chunk.js",
+    "static/js/2.c7d3455c.chunk.js.map": "/GasolinePrices/static/js/2.c7d3455c.chunk.js.map",
+    "static/js/3.ea35dbea.chunk.js": "/GasolinePrices/static/js/3.ea35dbea.chunk.js",
+    "static/js/3.ea35dbea.chunk.js.map": "/GasolinePrices/static/js/3.ea35dbea.chunk.js.map",
+    "index.html": "/GasolinePrices/index.html",
+    "static/css/2.747cbacb.chunk.css.map": "/GasolinePrices/static/css/2.747cbacb.chunk.css.map",
+    "static/css/main.d43359a5.chunk.css.map": "/GasolinePrices/static/css/main.d43359a5.chunk.css.map",
+    "static/js/2.c7d3455c.chunk.js.LICENSE.txt": "/GasolinePrices/static/js/2.c7d3455c.chunk.js.LICENSE.txt",
+    "static/media/font-awesome.min.css": "/GasolinePrices/static/media/fontawesome-webfont.f691f37e.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5d19e055.js",
+    "static/css/2.747cbacb.chunk.css",
+    "static/js/2.c7d3455c.chunk.js",
+    "static/css/main.d43359a5.chunk.css",
+    "static/js/main.59f1af6d.chunk.js"
+  ]
+}
