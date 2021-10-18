@@ -105,7 +105,9 @@ class DetailForm extends Component{
                     </Row>
                     
                     <div style={{textAlign: 'right'}}>
-                        <Button type='submit' color="primary" style={{marginBottom: '20px'}}>
+                        <Button type='submit' 
+                        color="primary" 
+                        style={{marginBottom: '20px'}}>
                             Cerca Benzinai
                         </Button>
                     </div>
