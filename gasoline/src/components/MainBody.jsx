@@ -14,7 +14,6 @@ class MainBody extends Component{
             area: '3',
             action:null,
         }
-        
         this.onSubmit = this.onSubmit.bind(this)
         this.inputForm = this.inputForm.bind(this)
         this.baseUrl = "https://raw.githubusercontent.com/GabrieleGhisleni/GasolinePrices/master/data/prices_for_municipality/"
@@ -71,6 +70,7 @@ class MainBody extends Component{
         this.setState({[evt.target.name] : evt.target.value})
     }
 
+
     render(){
         return(
             <React.Fragment>
@@ -81,9 +81,10 @@ class MainBody extends Component{
                             carburante = {this.state.carburante}
                             area = {this.state.area}
                             inputForm = {this.inputForm}
-                            onSubmit = {this.onSubmit} />
+                            onSubmit = {this.onSubmit} 
+                            focus = {this.handleOnClick}/>
                         </Col>
-                        <Col xs='12' sm='7' className='text-center'>
+                        <Col xs='12' sm='7' className='text-center' id='map'>
                             <FunctionalMap 
                             props = {this.state}
                             finished = {this.finishedAction}/>

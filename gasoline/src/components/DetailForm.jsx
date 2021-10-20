@@ -3,7 +3,16 @@ import {Row, Col, FormGroup, Form, Label, Input, Button} from 'reactstrap';
 import { Hint } from 'react-autocomplete-hint';
 import NAMES from './../shared/names.json'
 
+
 class DetailForm extends Component{
+
+    scrollBottom(){
+        window.scroll({
+            top: document.body.offsetHeight,
+            left: 0, 
+            behavior: 'smooth',
+          });
+    }
 
     render(){
         return(
@@ -105,11 +114,13 @@ class DetailForm extends Component{
                     </Row>
                     
                     <div style={{textAlign: 'right'}}>
+                        <a href='#map' onClick={this.scrollBottom}>
                         <Button type='submit' 
                         color="primary" 
                         style={{marginBottom: '20px'}}>
                             Cerca Benzinai
                         </Button>
+                        </a>
                     </div>
                 
                 </Form>
