@@ -51,14 +51,21 @@ function ComuneArea({props}){
 
 function MarkersComponent({props}){
     if (props.action){
-        var Tmp;
-        if (props.area === '3'){Tmp = props.stations_3}
-        else if (props.area === '1'){Tmp = props.stations_1}
-        else{Tmp = props.stations_5}  
-        return(<React.Fragment>
-                    <CreateMarkers markers = {Tmp} slice={props.nstations} carburante={props.carburante}/>
-                </React.Fragment>
-        )
+        var stations
+        switch (props.area) {
+            case '1':
+                stations = props.stations_1;
+                break;
+            case '3':
+                stations = props.stations_3;
+                break;
+            case '5':
+                stations = props.stations_5;
+                break;
+            default:
+                break;
+        }
+        return(<CreateMarkers markers = {stations} slice={props.nstations} carburante={props.carburante}/>)
     } 
     else {return null}
 }
@@ -78,6 +85,5 @@ export const FunctionalMap = ({props}) => {
                 <BufferComponent props={props}/>
                 <ComuneArea props={props} />
             </MapContainer>
-
             )
 }

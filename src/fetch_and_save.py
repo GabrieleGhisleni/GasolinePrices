@@ -70,7 +70,8 @@ class FetchSave:
 
 
     def from_pd_to_dict(self, stations, carburante):
-        extracted_only_carb = stations.loc[stations.descCarburante == carburante]
+        if carburante == 'Metano' or carburante == 'GPL': extracted_only_carb = stations.loc[(stations.descCarburante == carburante) & (stations.isSelf == 0)]
+        else: extracted_only_carb = stations.loc[(stations.descCarburante == carburante) & (stations.isSelf == 1)]
         list_of_processed_station = []
         if not extracted_only_carb.empty:
             for idx in range(len(extracted_only_carb)):

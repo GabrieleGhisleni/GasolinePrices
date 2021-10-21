@@ -19,8 +19,10 @@ class DetailForm extends Component{
             <div onSubmit={this.props.onSubmit}>
                 <h5>Trova i Benzinai più economici!</h5>
                 <p className='text-justify'>
-                    Inserisci il tuo comune e seleziona il tipo di carburante desiderato.
-                    Potrai inoltre specificare il raggio entro il quale cercare i distributori,
+                    Inserisci il tuo comune e seleziona il tipo di carburante desiderato e verranno
+                    mostrati tutti i distributori attivi nella tua zona, ti sarà chiaro e veloce
+                    scegliere quello più economico!
+                    Potrai inoltre specificare il raggio entro il quale cercare i distributori.
                     clicca su 'Cerca Benzinai' e la mappa mostrerà i distributori più economici nella tua zona!
                 </p>
                 <Form>

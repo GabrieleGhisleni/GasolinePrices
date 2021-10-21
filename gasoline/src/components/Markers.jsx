@@ -9,13 +9,12 @@ function getIcon(url_c, size){
         iconSize:  size, 
         iconAnchor:   [0, 0],
         popupAnchor:  [-15, -90]
-    }
-
-    )
+    })
 }
 
 export const CreateMarkers = ({markers, slice, carburante}) => {
     var i=0, size=[[17,17],[15,15]], color=[], url, sz;
+    console.log('here', markers)
 
     var green = 'https://www.pikpng.com/pngl/b/36-369401_location-marker-icon-google-maps-pointer-elsavadorla-google.png'
     var orange = "https://www.pinclipart.com/picdir/big/79-798120_orange-map-pin-orange-location-icon-png-clipart.png"

@@ -27,7 +27,6 @@ class MainBody extends Component{
         comune = comune.replaceAll(" ",'-')
         comune = comune.toLowerCase()
         comune += '.json'
-        console.log(comune)
         fetch(this.baseUrl + comune)
             .then(response => {
                 if (!response.ok) {
