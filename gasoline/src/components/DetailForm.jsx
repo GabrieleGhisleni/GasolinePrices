@@ -7,11 +7,14 @@ import NAMES from './../shared/names.json'
 class DetailForm extends Component{
 
     scrollBottom(){
-        window.scroll({
-            top: document.body.offsetHeight,
-            left: 0, 
-            behavior: 'smooth',
-          });
+        console.log(window, window.innerWidth)
+        if (window.innerWidth < 900){
+            window.scroll({
+                top: document.body.offsetHeight,
+                left: 0, 
+                behavior: 'smooth',
+            })}
+        else {return null}
     }
 
     render(){
@@ -22,8 +25,18 @@ class DetailForm extends Component{
                     Inserisci il tuo comune e seleziona il tipo di carburante desiderato e verranno
                     mostrati tutti i distributori attivi nella tua zona, ti sarà chiaro e veloce
                     scegliere quello più economico!
-                    Potrai inoltre specificare il raggio entro il quale cercare i distributori.
-                    clicca su 'Cerca Benzinai' e la mappa mostrerà i distributori più economici nella tua zona!
+
+                    <div style={{marginTop:'10px'}}>
+                    <ol>
+                        <li>Inserisci il comune</li>
+                        <li>Seleziona il tipo di carburante</li>
+                        <li>Premi il pulsante <span style={{fontStyle:'italic'}}>'Cerca Benzinai' </span></li>
+                        <li>Opzionale: Specifica il raggio di ricerc</li>
+                        <li>Opzionale: Specifica il numero di risultati mostrati</li>
+                    </ol>
+                    </div>
+                    Ti sarà possibile modificare i parametri opzionali molto velocemente senza ricaricare ricliccare il 
+                    bottone e senza ricaricare nuovamente la pagina!
                 </p>
                 <Form>
                     <FormGroup>
@@ -120,16 +133,18 @@ class DetailForm extends Component{
                     </FormGroup>
                     </Col>
                     </Row>
-                    
-                    <div style={{textAlign: 'right'}}>
-                        <a onClick={this.scrollBottom}>
-                        <Button type='submit' 
-                        color="primary" 
-                        style={{marginBottom: '20px'}}>
-                            Cerca Benzinai
-                        </Button>
-                        </a>
-                    </div>
+                    <Row>
+                        <Col>
+                            <div className='buttonSubmit'>
+                                <a onClick={this.scrollBottom}>
+                                <Button type='submit' 
+                                color="primary">
+                                    Cerca Benzinai
+                                </Button>
+                                </a>
+                            </div>
+                        </Col>
+                    </Row>
                 
                 </Form>
             </div>

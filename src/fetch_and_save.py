@@ -4,6 +4,7 @@ import datetime as dt
 import pandas as pd
 import unicodedata
 import numpy as np
+import copy
 import json
 import os
 
@@ -63,8 +64,9 @@ class FetchSave:
         keys = [1,3,5]
         for carburante in self.unique_gasoline:
             res[carburante] = dict()
-            for idx in range(len(buffers)):
-                res[carburante][keys[idx]] = self.from_pd_to_dict(buffers[idx], carburante)
+            if carburante:
+                for idx in range(len(buffers)):
+                    res[carburante][keys[idx]] = self.from_pd_to_dict(buffers[idx], carburante)
         self.saving(res)
 
 
@@ -75,10 +77,11 @@ class FetchSave:
         list_of_processed_station = []
         if not extracted_only_carb.empty:
             for idx in range(len(extracted_only_carb)):
-                stations_detail = self.detail_dict[str(extracted_only_carb.iloc[idx].idImpianto)]
-                stations_detail['price'] = extracted_only_carb.iloc[idx].prezzo
-                stations_detail['ultima_rilevazione'] = extracted_only_carb.iloc[idx].dtComu
-                list_of_processed_station.append(stations_detail)
+                if str(extracted_only_carb.iloc[idx].idImpianto) in self.detail_dict:
+                    stations_detail = copy.deepcopy(self.detail_dict[str(extracted_only_carb.iloc[idx].idImpianto)])
+                    stations_detail['price'] = extracted_only_carb.iloc[idx].prezzo
+                    stations_detail['ultima_rilevazione'] = extracted_only_carb.iloc[idx].dtComu
+                    list_of_processed_station.append(stations_detail)
         return list_of_processed_station
 
 

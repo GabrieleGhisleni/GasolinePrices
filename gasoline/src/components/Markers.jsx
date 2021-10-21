@@ -50,8 +50,9 @@ export const CreateMarkers = ({props, markers}) => {
                                             href= {`geo:${stat.points[0].geometry.coordinates[1]},${stat.points[0].geometry.coordinates[0]}`} 
                                             target='_blank'> {stat.Indirizzo} </a> <br/>
                                 Comune: {stat.Comune.charAt(0).toUpperCase() + stat.Comune.slice(1)}  <br/>
-                                Ultima rilevazione: {stat.date} <br/>
+                                Ultima rilevazione: {stat.ultima_rilevazione} <br/>
                                 Bandiera: {stat.Bandiera} <br/>
+                                ID stazione : {stat.idImpianto} <br/>
                             </Popup>
                         </Marker>
                     </div> 

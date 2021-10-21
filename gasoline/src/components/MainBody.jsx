@@ -37,7 +37,6 @@ class MainBody extends Component{
             .then(response => response.json())
             .then(data => {
                 // alert('SITO IN MANUTENZIONE, working again by 22/10/22')
-                console.log(data)
                 let stat_1 = data[this.state.carburante]["1"];
                 let stat_3 = data[this.state.carburante]["3"];
                 let stat_5 =  data[this.state.carburante]['5'];
