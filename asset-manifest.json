@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/GasolinePrices/static/css/main.e8761110.chunk.css",
-    "main.js": "/GasolinePrices/static/js/main.ae750c0d.chunk.js",
-    "main.js.map": "/GasolinePrices/static/js/main.ae750c0d.chunk.js.map",
+    "main.js": "/GasolinePrices/static/js/main.810e5c1c.chunk.js",
+    "main.js.map": "/GasolinePrices/static/js/main.810e5c1c.chunk.js.map",
     "runtime-main.js": "/GasolinePrices/static/js/runtime-main.5d19e055.js",
     "runtime-main.js.map": "/GasolinePrices/static/js/runtime-main.5d19e055.js.map",
     "static/css/2.747cbacb.chunk.css": "/GasolinePrices/static/css/2.747cbacb.chunk.css",
-    "static/js/2.c7d3455c.chunk.js": "/GasolinePrices/static/js/2.c7d3455c.chunk.js",
-    "static/js/2.c7d3455c.chunk.js.map": "/GasolinePrices/static/js/2.c7d3455c.chunk.js.map",
+    "static/js/2.761c3e5d.chunk.js": "/GasolinePrices/static/js/2.761c3e5d.chunk.js",
+    "static/js/2.761c3e5d.chunk.js.map": "/GasolinePrices/static/js/2.761c3e5d.chunk.js.map",
     "static/js/3.ea35dbea.chunk.js": "/GasolinePrices/static/js/3.ea35dbea.chunk.js",
     "static/js/3.ea35dbea.chunk.js.map": "/GasolinePrices/static/js/3.ea35dbea.chunk.js.map",
     "index.html": "/GasolinePrices/index.html",
     "static/css/2.747cbacb.chunk.css.map": "/GasolinePrices/static/css/2.747cbacb.chunk.css.map",
     "static/css/main.e8761110.chunk.css.map": "/GasolinePrices/static/css/main.e8761110.chunk.css.map",
-    "static/js/2.c7d3455c.chunk.js.LICENSE.txt": "/GasolinePrices/static/js/2.c7d3455c.chunk.js.LICENSE.txt",
+    "static/js/2.761c3e5d.chunk.js.LICENSE.txt": "/GasolinePrices/static/js/2.761c3e5d.chunk.js.LICENSE.txt",
     "static/media/font-awesome.min.css": "/GasolinePrices/static/media/fontawesome-webfont.f691f37e.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.5d19e055.js",
     "static/css/2.747cbacb.chunk.css",
-    "static/js/2.c7d3455c.chunk.js",
+    "static/js/2.761c3e5d.chunk.js",
     "static/css/main.e8761110.chunk.css",
-    "static/js/main.ae750c0d.chunk.js"
+    "static/js/main.810e5c1c.chunk.js"
   ]
 }
