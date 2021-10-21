@@ -23,6 +23,7 @@ class MainBody extends Component{
     onSubmit(evt){
         let comune = evt.target.comune.value
         comune = comune.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z\s])/g, '')
+        comune = comune.trim()
         comune = comune.replaceAll("'",'')
         comune = comune.replaceAll(" ",'-')
         comune = comune.toLowerCase()
@@ -36,23 +37,27 @@ class MainBody extends Component{
             .then(response => response.json())
             .then(data => {
                 // alert('SITO IN MANUTENZIONE, working again by 22/10/22')
-                let carburante = this.state.carburante;
-
-                let stat_1 = data[carburante]["1"];
-                let stat_3 = data[carburante]["3"];
-                let stat_5 =  data[carburante]['5'];
+                console.log(data)
+                let stat_1 = data[this.state.carburante]["1"];
+                let stat_3 = data[this.state.carburante]["3"];
+                let stat_5 =  data[this.state.carburante]['5'];
                 
                 function priceSort( a, b ) {
                     if ( a.price < b.price ){return -1;}
                     if ( a.price > b.price ){return 1;}
                     return 0;}
-                
+                    
                 stat_3 = stat_3.concat([...stat_1])
                 stat_5 = stat_5.concat([...stat_3])
                 stat_1.sort(priceSort)
                 stat_3.sort(priceSort)
                 stat_5.sort(priceSort)
-
+                let prices = stat_5.map(p => {return p.price})
+                if (prices.length == 0){alert('we have not found any stations around you municipality!')}
+                    
+                const math = require('mathjs')
+                this.setState({standard_deviation: math.std(prices) })
+                this.setState({mean: math.mean(prices) })
                 this.setState({area_comune: JSON.parse(data.area_comune)})
                 this.setState({buffer_1: JSON.parse(data.buffer_1)})
                 this.setState({buffer_3: JSON.parse(data.buffer_3)})
@@ -85,17 +90,17 @@ class MainBody extends Component{
                     <Row className='primaryRow align-items-center'>
                         <Col xs='11' sm='5' md='5'>
                             <DetailForm 
-                            nstations = {this.state.nstations}
-                            carburante = {this.state.carburante}
-                            area = {this.state.area}
-                            inputForm = {this.inputForm}
-                            onSubmit = {this.onSubmit} 
-                            focus = {this.handleOnClick}/>
+                                nstations = {this.state.nstations}
+                                carburante = {this.state.carburante}
+                                area = {this.state.area}
+                                inputForm = {this.inputForm}
+                                onSubmit = {this.onSubmit} 
+                                focus = {this.handleOnClick}/>
                         </Col>
                         <Col xs='12' sm='7' className='text-center' id='map'>
                             <FunctionalMap 
-                            props = {this.state}
-                            finished = {this.finishedAction}/>
+                                props = {this.state}
+                                finished = {this.finishedAction}/>
                         </Col>
                     </Row>
             </React.Fragment>

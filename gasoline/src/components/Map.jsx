@@ -65,7 +65,7 @@ function MarkersComponent({props}){
             default:
                 break;
         }
-        return(<CreateMarkers markers = {stations} slice={props.nstations} carburante={props.carburante}/>)
+        return(<CreateMarkers props = {props} markers = {stations}/>)
     } 
     else {return null}
 }
