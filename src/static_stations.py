@@ -2,6 +2,7 @@ from shapely.geometry import mapping
 import geopandas as gpd
 import datetime as dt
 import pandas as pd
+import json
 import sys
 import os
 
@@ -42,15 +43,16 @@ class StaticStations:
 
         area_comune = comune.buffer(0).simplify(10)
         area_comune = serialize_buffer(area_comune)
-        area_comune = [{'type': 'Feature', 'properties': {}, 'geometry': mapping(area_comune)}]
+        area_comune = [{"type": "Feature", "properties": {}, "geometry": (mapping(area_comune))}]
 
         comune_max_buffer = serialize_buffer( comune.simplify(500).buffer(5000) )
         comune_three_buffer = serialize_buffer( comune.simplify(500).buffer(3000) )
         comune_one_buffer = serialize_buffer( comune.simplify(500).buffer(1000) )
 
-        buffer_one_geojson = [{'type': 'Feature', 'properties': {}, 'geometry': mapping(comune_one_buffer)}]
-        buffer_three_geojson = [{'type': 'Feature', 'properties': {}, 'geometry': mapping(comune_three_buffer)}]
-        buffer_max_geojson = [{'type': 'Feature', 'properties': {}, 'geometry': mapping(comune_max_buffer)}]
+        buffer_one_geojson = [{"type": "Feature", "properties": {}, "geometry": mapping(comune_one_buffer)}]
+        buffer_three_geojson = [{"type": "Feature", "properties": {}, "geometry": mapping(comune_three_buffer)}]
+        buffer_max_geojson = [{"type": "Feature", "properties": {}, "geometry": mapping(comune_max_buffer)}]
+        centroid = [{"type": "Feature", "properties": {}, "geometry": mapping(comune_max_buffer.centroid)}]
 
         stations_in_max_buffer = self.geo_stations[self.geo_stations.geometry.values.within(comune_max_buffer)]
         all_stations = stations_in_max_buffer.copy()      
@@ -69,11 +71,11 @@ class StaticStations:
         unique_all = [str(x) for x in unique_all]
 
         comune = comune.loc[:, ['COMUNE']]
-        comune['centroid'] = [mapping(comune_three_buffer.centroid)]
-        comune['area_comune'] = area_comune
-        comune['buffer_1'] = buffer_one_geojson
-        comune['buffer_3'] = buffer_three_geojson
-        comune['buffer_5'] = buffer_max_geojson
+        comune['centroid'] =  json.dumps(centroid)
+        comune['area_comune'] = json.dumps(area_comune)
+        comune['buffer_1'] = json.dumps(buffer_one_geojson)
+        comune['buffer_3'] = json.dumps(buffer_three_geojson)
+        comune['buffer_5'] = json.dumps(buffer_max_geojson)
         comune['stationsId_one'] = ';'.join(unique_one)
         comune['stationsId_three'] = ';'.join(unique_three)
         comune['stationsId_five'] = ';'.join(unique_five)
@@ -92,10 +94,10 @@ class StaticStations:
                 "Nome impianto" : row['Nome Impianto'],
                 'Comune' : row.Comune,
                 'idImpianto': row.idImpianto,
-                'points':  [{'type': 'Feature', 'properties': {}, 'geometry': mapping(row.geometry)}]
+                'points':  [{"type": "Feature", "properties": {}, "geometry": (mapping(row.geometry))}]
                 }
                 
-        with open('./data/detail.json', 'w') as f: json.dump(res, f)
+        with open('./data/detail.json', 'w') as f: json.dumps(res, f)
     
 
 if __name__ == "__main__":

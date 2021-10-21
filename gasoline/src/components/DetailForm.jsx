@@ -114,7 +114,7 @@ class DetailForm extends Component{
                     </Row>
                     
                     <div style={{textAlign: 'right'}}>
-                        <a href='#map' onClick={this.scrollBottom}>
+                        <a onClick={this.scrollBottom}>
                         <Button type='submit' 
                         color="primary" 
                         style={{marginBottom: '20px'}}>

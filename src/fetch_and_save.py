@@ -51,7 +51,6 @@ class FetchSave:
         buffer_one_recors = all_records_filtered.loc[all_records_filtered.idImpianto.isin(buffer_1_set)]
         buffer_three_recors = all_records_filtered.loc[all_records_filtered.idImpianto.isin(buffer_3_set)]
         buffer_five_recors = all_records_filtered.loc[all_records_filtered.idImpianto.isin(buffer_5_set)]
-
         res = dict( area_comune = comune['area_comune'],
                     comune = comune['COMUNE'],
                     buffer_1 = comune['buffer_1'],

@@ -36,29 +36,44 @@ class MainBody extends Component{
                 }else{return response}})
             .then(response => response.json())
             .then(data => {
+                alert('SITO IN MANUTENZIONE, working again by 22/10/22')
+
                 let carburante = this.state.carburante;
                 let area = this.state.area;
-                let stat_3 = data[carburante]['3'];
-                let stat_5 =  data[carburante]['5'];
-                let tmp = [...stat_3.price]
-                stat_5.price = stat_5.price.concat(tmp)
-                stat_5.price.sort((a,b) => {
-                    return a.price > b.price
-                })
 
-                this.setState({buffer_3: data.buffer_3})
-                this.setState({buffer_5: data['buffer_5']})
+                let stat_1 = data[carburante]["1"];
+                let stat_3 = data[carburante]["3"];
+                let stat_5 =  data[carburante]['5'];
+                
+                function priceSort(a,b){
+                        if (a === b){return 0}
+                        else {return a > b ? -1 : 1}
+                }
+
+                stat_1 = stat_1.sort(priceSort)
+                
+                var copy_1 = [...stat_1]
+                stat_3.concat(copy_1)
+                var copy_2 = [...stat_3]
+                stat_5.concat(copy_2)
+                stat_3 = stat_3.sort((a,b) => {return a.price > b.price})
+                stat_5 = stat_5.sort(priceSort)
+                console.log(stat_3.sort(priceSort))
+ 
+ 
+                this.setState({buffer_3: JSON.parse(data.buffer_3)})
+                this.setState({buffer_5: JSON.parse(data.buffer_5)})
                 this.setState({zoom: 3})
-                this.setState({centroid: data['centroid']})
-                this.setState({stations_3: stat_3})
+                this.setState({centroid: JSON.parse(data.centroid)})
+                this.setState({stations_3: stat_3.sort(priceSort)})
                 this.setState({stations_5: stat_5})
-                this.setState({area_comune: data['area_comune']})
+                this.setState({area_comune: JSON.parse(data.area_comune)})
                 this.setState({first: false})
                 this.setState({action: true})
 
             })
             .catch(err => {
-                console.log('Error Message While fetching: ', err.message)
+                console.log('Error Message While fetching: ', err)
             })  
 
         

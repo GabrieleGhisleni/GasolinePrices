@@ -29,18 +29,17 @@ export const CreateMarkers = ({markers, slice, carburante}) => {
             color.push(red)
         }
     }
-    const stations = markers.price.map((stat) => {
+
+    const stations = markers.map((stat) => {
         url = color.at(i)
         sz = size.at(i)
         if (sz === undefined){sz = [12,12]}
-        console.log(sz)
         // if (i==0){sz = [20,20]}
         // else{sz=[12,12]}
         i++
-        console.log(stat)
         return (<div className='popUp'>
                 <Marker 
-                position={[stat.geometry.coordinates[1],stat.geometry.coordinates[0]]}
+                position={[stat.points[0].geometry.coordinates[1],stat.points[0].geometry.coordinates[0]]}
                 icon = {getIcon(url, sz)}>
                     <Tooltip direction='top' offset={[1,0]} permanent><span style={{fontWeight:'bold'}}>{stat.price}</span></Tooltip> 
                     <Popup>
@@ -48,7 +47,7 @@ export const CreateMarkers = ({markers, slice, carburante}) => {
                         Gestore: <span style={{fontSize:".7rem"}}>{stat.Gestore} </span><br/>
                         Indirizzo: <a 
                                     style={{fontSize:'0.6rem'}}
-                                    href= {`geo:${stat.geometry.coordinates[1]}, ${stat.geometry.coordinates[0]}}`} 
+                                    href= {`geo:${stat.points[0].geometry.coordinates[1]},{stat.points[0].geometry.coordinates[0]}`} 
                                     target='_blank'> {stat.Indirizzo} </a> <br/>
                         Comune: {stat.Comune.charAt(0).toUpperCase() + stat.Comune.slice(1)}  <br/>
                         Ultima rilevazione: {stat.date} <br/>
