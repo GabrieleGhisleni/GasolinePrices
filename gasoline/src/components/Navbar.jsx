@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, NavbarBrand} from 'reactstrap';
+import { Navbar, NavbarBrand, Row, Col, Container} from 'reactstrap';
 
 class MyNavbar extends Component{
     constructor(props) {
@@ -16,7 +16,7 @@ class MyNavbar extends Component{
         return(
             <React.Fragment>
                 <Navbar light expand='md' id='navBar'>
-                    <NavbarBrand id='navBrand' className='mr-auto'>Prezzi Gasolio</NavbarBrand>
+                    <NavbarBrand id='navBrand' className='text-center'>Open Gasoline</NavbarBrand>
                 </Navbar>
             </React.Fragment>
         );

@@ -39,6 +39,8 @@ class DetailForm extends Component{
                     bottone e senza ricaricare nuovamente la pagina!
                 </p>
                 <Form>
+                    <Row>
+                    <Col xs={12} className='text-left'>
                     <FormGroup>
                         <Label htmlFor="comune">Comune </Label>
                         <Hint options={NAMES.name} allowTabFill>
@@ -47,6 +49,8 @@ class DetailForm extends Component{
                             id = 'input' required/>
                         </Hint>
                     </FormGroup>
+                    </Col>
+                    <Col xs={12} className='text-left'>
                     <FormGroup>
                         <Label htmlFor="carburante">Seleziona Carburante</Label>
                         <Input type="select" name="carburante" id="carburante" 
@@ -60,6 +64,8 @@ class DetailForm extends Component{
                             <option value='Diesel High Quality'>Diesel High Quality</option>
                         </Input>
                     </FormGroup>
+                    </Col>
+                    </Row>
                     <Row>
                     <Col xs={5}>
                         <FormGroup >
@@ -134,13 +140,12 @@ class DetailForm extends Component{
                     </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col xs={12} className='text-center'>
                             <div className='buttonSubmit'>
-                                <a onClick={this.scrollBottom}>
-                                <Button type='submit' 
-                                color="primary">
-                                    Cerca Benzinai
-                                </Button>
+                                <a href='' onClick={this.scrollBottom}>
+                                    <Button type='submit' color="primary">
+                                        Cerca Benzinai
+                                    </Button>
                                 </a>
                             </div>
                         </Col>

@@ -76,7 +76,8 @@ export const FunctionalMap = ({props}) => {
                 center={[41.8933203, 14.4829321]} 
                 scrollWheelZoom={true}
                 zoom = {5}
-                className='mapContainer'>
+                className='mapContainer'
+                style={{border:'solid 1px rgb(103, 121, 105)', borderRadius:'20px' }}>
                 <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>

@@ -1,9 +1,9 @@
 #navBar {
-  background-color: #677969 !important; }
+  background-color: #76a579 !important; }
 
 .footer {
   align-content: center;
-  background-color: #677969 !important;
+  background-color: #76a579 !important;
   height: 100px; }
   .footer a {
     color: black !important; }
@@ -33,7 +33,13 @@
   height: 37vw !important;
   width: 100%;
   position: inherit;
-  background-color: #677969 !important; }
+  background-color: #76a579 !important; }
+
+.buttonSubmit {
+  border-radius: 20px;
+  margin: 20px 0;
+  background-color: #a6eff1 !important;
+  padding: 10px; }
 
 @media screen and (max-width: 600px) {
   .mapContainer {

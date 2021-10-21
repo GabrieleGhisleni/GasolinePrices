@@ -87,7 +87,7 @@ class MainBody extends Component{
         return(
             <React.Fragment>
                     <Row className='primaryRow align-items-center'>
-                        <Col xs='11' sm='5' md='5'>
+                        <Col xs='12' sm='5' md='5' className='text-center'>
                             <DetailForm 
                                 nstations = {this.state.nstations}
                                 carburante = {this.state.carburante}

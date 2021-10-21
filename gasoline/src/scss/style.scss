@@ -1,4 +1,6 @@
-$background: rgb(103, 121, 105)!important;
+// $background: #f5c9bb!important;
+// $background: rgb(103, 121, 105)!important;
+$background: rgb(118, 165, 121)!important;
 $bodyPadding: 20px!important;
 
 
@@ -46,6 +48,15 @@ $bodyPadding: 20px!important;
     width: 100%;
     position: inherit;
     background-color: $background;
+}
+
+
+.buttonSubmit{
+    border-radius: 20px;
+    margin: 20px 0;
+    
+    background-color: rgb(166, 239, 241)!important;
+    padding: 10px;
 }
 
 @media screen and (max-width: 600px) {
