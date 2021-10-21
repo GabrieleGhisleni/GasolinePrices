@@ -52,6 +52,12 @@ class DetailForm extends Component{
                         <div className='ml-auto'>
                         <FormGroup check inline>
                                 <Label check><Input type="radio" 
+                                name='area' value={'1'}
+                                checked={this.props.area === "1"}
+                                onChange={this.props.inputForm}/> 1 km </Label>
+                        </FormGroup>
+                        <FormGroup check inline>
+                                <Label check><Input type="radio" 
                                 name='area' value={'3'}
                                 checked={this.props.area === "3"}
                                 onChange={this.props.inputForm}/> 3 km </Label>

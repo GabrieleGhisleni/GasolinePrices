@@ -36,38 +36,32 @@ class MainBody extends Component{
                 }else{return response}})
             .then(response => response.json())
             .then(data => {
-                alert('SITO IN MANUTENZIONE, working again by 22/10/22')
-
+                // alert('SITO IN MANUTENZIONE, working again by 22/10/22')
                 let carburante = this.state.carburante;
-                let area = this.state.area;
 
                 let stat_1 = data[carburante]["1"];
                 let stat_3 = data[carburante]["3"];
                 let stat_5 =  data[carburante]['5'];
                 
-                function priceSort(a,b){
-                        if (a === b){return 0}
-                        else {return a > b ? -1 : 1}
-                }
-
-                stat_1 = stat_1.sort(priceSort)
+                function priceSort( a, b ) {
+                    if ( a.price < b.price ){return -1;}
+                    if ( a.price > b.price ){return 1;}
+                    return 0;}
                 
-                var copy_1 = [...stat_1]
-                stat_3.concat(copy_1)
-                var copy_2 = [...stat_3]
-                stat_5.concat(copy_2)
-                stat_3 = stat_3.sort((a,b) => {return a.price > b.price})
-                stat_5 = stat_5.sort(priceSort)
-                console.log(stat_3.sort(priceSort))
- 
- 
+                stat_3 = stat_3.concat([...stat_1])
+                stat_5 = stat_5.concat([...stat_3])
+                stat_1.sort(priceSort)
+                stat_3.sort(priceSort)
+                stat_5.sort(priceSort)
+
+                this.setState({area_comune: JSON.parse(data.area_comune)})
+                this.setState({buffer_1: JSON.parse(data.buffer_1)})
                 this.setState({buffer_3: JSON.parse(data.buffer_3)})
                 this.setState({buffer_5: JSON.parse(data.buffer_5)})
-                this.setState({zoom: 3})
                 this.setState({centroid: JSON.parse(data.centroid)})
-                this.setState({stations_3: stat_3.sort(priceSort)})
+                this.setState({stations_1: stat_1})
+                this.setState({stations_3: stat_3})
                 this.setState({stations_5: stat_5})
-                this.setState({area_comune: JSON.parse(data.area_comune)})
                 this.setState({first: false})
                 this.setState({action: true})
 

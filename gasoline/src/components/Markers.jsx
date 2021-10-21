@@ -1,8 +1,7 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon, Tooltip} from 'react-leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
+import { Marker, Popup, Tooltip} from 'react-leaflet';
 import L from 'leaflet'
-import { control } from 'leaflet';
+
 
 function getIcon(url_c, size){
     return L.icon({
@@ -34,8 +33,6 @@ export const CreateMarkers = ({markers, slice, carburante}) => {
         url = color.at(i)
         sz = size.at(i)
         if (sz === undefined){sz = [12,12]}
-        // if (i==0){sz = [20,20]}
-        // else{sz=[12,12]}
         i++
         return (<div className='popUp'>
                 <Marker 
