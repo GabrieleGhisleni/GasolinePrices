@@ -1,8 +1,14 @@
 // $background: #f5c9bb!important;
 // $background: rgb(103, 121, 105)!important;
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
 $background: rgb(118, 165, 121)!important;
 $bodyPadding: 20px!important;
+$fontStyle: 'Merriweather', serif;
 
+.myText{
+    font-family: $fontStyle;
+}
 
 #navBar{
     background-color: $background

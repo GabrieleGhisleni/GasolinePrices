@@ -7,7 +7,6 @@ import NAMES from './../shared/names.json'
 class DetailForm extends Component{
 
     scrollBottom(){
-        console.log(window, window.innerWidth)
         if (window.innerWidth < 900){
             window.scroll({
                 top: document.body.offsetHeight,
@@ -20,8 +19,8 @@ class DetailForm extends Component{
     render(){
         return(
             <div onSubmit={this.props.onSubmit}>
-                <h5>Trova i Benzinai più economici!</h5>
-                <p className='text-justify'>
+                <h4 className='myText' style={{marginBottom :'10px'}}>Trova i Benzinai più economici!</h4>
+                <p className='text-justify myText'>
                     Inserisci il tuo comune e seleziona il tipo di carburante desiderato e verranno
                     mostrati tutti i distributori attivi nella tua zona, ti sarà chiaro e veloce
                     scegliere quello più economico!
@@ -31,11 +30,12 @@ class DetailForm extends Component{
                         <li>Inserisci il comune</li>
                         <li>Seleziona il tipo di carburante</li>
                         <li>Premi il pulsante <span style={{fontStyle:'italic'}}>'Cerca Benzinai' </span></li>
-                        <li>Opzionale: Specifica il raggio di ricerc</li>
+                        <li>Opzionale: Specifica il raggio di ricerca</li>
                         <li>Opzionale: Specifica il numero di risultati mostrati</li>
                     </ol>
                     </div>
-                    Ti sarà possibile modificare i parametri opzionali molto velocemente senza ricaricare ricliccare il 
+                    Cliccando sulle icone nella mappa verrano mostrati i dettagli della stazione, inclusa la data di rilevazione del prezzo.
+                     Ti sarà possibile modificare i parametri opzionali molto velocemente senza ricaricare ricliccare il 
                     bottone e senza ricaricare nuovamente la pagina!
                 </p>
                 <Form>
@@ -84,18 +84,14 @@ class DetailForm extends Component{
                                 onChange={this.props.inputForm}/> 3 km </Label>
                         </FormGroup>
                         <FormGroup check inline>
-                            <FormGroup check inline>
                             <Label check>
                                 <Input type="radio" 
                                 name='area' value={'5'}
                                 onChange={this.props.inputForm}
                                 checked={this.props.area === "5"}/> 5 km</Label>
-                            </FormGroup>
-
-                        </FormGroup>
-                    </div>
-                   
+                            </FormGroup>                    </div>
                     </FormGroup>
+                   
                     </Col>
                     <Col>
                         <FormGroup >
