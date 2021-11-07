@@ -14,7 +14,6 @@ def main():
     if args.new:
         static = StaticStations()
         static.update_static_storage()
-        static.static_id_json()
     elif args.default:
         FetchSave().update_daily_storage()
 

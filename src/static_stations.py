@@ -23,11 +23,12 @@ class StaticStations:
         total_error, actual, remaining, start = 0, 0, len(self.municipalities), dt.datetime.now()
         print('Loaded static and starting the process!')
         for idx, row in self.municipalities.iterrows():
-            try:
-                storage.append(self.process_municipality(self.municipalities.iloc[idx:idx+1]))
-            except Exception as e:
-                print(e)
-                total_error += 1
+            if row.COMUNE == 'Medolago':
+                try:
+                    storage.append(self.process_municipality(self.municipalities.iloc[idx:idx+1]))
+                except Exception as e:
+                    print(e)
+                    total_error += 1
             actual += 1
             if actual % 1000 == 0: print(f'actual={actual}, remaining={remaining-actual}, execution time: {dt.datetime.now() - start}')
         print(f'Finished processing, total error={total_error} execution time: {dt.datetime.now() - start}')
@@ -81,24 +82,6 @@ class StaticStations:
         comune['stationsId_five'] = ';'.join(unique_five)
         comune['all_stations'] = ';'.join(unique_all)
         return comune
-
-    def static_id_json(self):
-        self.geo_stations = self.geo_stations.drop(columns=['Provincia', 'Latitudine','Longitudine'])
-        res = {}
-        for idx, row in self.geo_stations.iterrows():
-            res[str(row.idImpianto)] = {
-                "Gestore": row.Gestore,
-                "Bandiera": row.Bandiera,
-                "Tipo impianto" : row['Tipo Impianto'],
-                "Indirizzo" : row['Indirizzo'],
-                "Nome impianto" : row['Nome Impianto'],
-                'Comune' : row.Comune,
-                'idImpianto': row.idImpianto,
-                'points':  [{"type": "Feature", "properties": {}, "geometry": (mapping(row.geometry))}]
-                }
-                
-        with open('./data/detail.json', 'w') as f: json.dumps(res, f)
-    
 
 if __name__ == "__main__":
     StaticStations().update_static_storage()

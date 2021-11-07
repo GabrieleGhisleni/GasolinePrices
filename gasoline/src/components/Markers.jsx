@@ -34,7 +34,7 @@ export const CreateMarkers = ({props, markers}) => {
             else if (stat.price <= death)  {url = url_red; size = [16,16]; flag=false}
             else if (stat.price >= death)  {url = url_death; size = [16,16]; flag=false}
             else {url = url_death; size = [14,14];}
-            if ((flag) || props.nstations <= 20 ) {tooltip = <Tooltip direction='top' offset={[1,0]} permanent><span style={{fontWeight:'bold'}}>{stat.price}</span></Tooltip> }
+            if ((flag)) {tooltip = <Tooltip direction='top' offset={[1,0]} permanent><span style={{fontWeight:'bold'}}>{stat.price}</span></Tooltip> }
             else {tooltip = <Tooltip direction='top' offset={[1,1]} opacity={0.9} ><span style={{fontWeight:'bold'}}>{stat.price}</span></Tooltip> }
 
             return (<div className='popUp'>
