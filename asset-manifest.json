@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/GasolinePrices/static/css/main.8f44b6e6.chunk.css",
-    "main.js": "/GasolinePrices/static/js/main.af5dafc3.chunk.js",
-    "main.js.map": "/GasolinePrices/static/js/main.af5dafc3.chunk.js.map",
-    "runtime-main.js": "/GasolinePrices/static/js/runtime-main.97578549.js",
-    "runtime-main.js.map": "/GasolinePrices/static/js/runtime-main.97578549.js.map",
+    "main.js": "/GasolinePrices/static/js/main.e4bc4ed2.chunk.js",
+    "main.js.map": "/GasolinePrices/static/js/main.e4bc4ed2.chunk.js.map",
+    "runtime-main.js": "/GasolinePrices/static/js/runtime-main.e6e2b749.js",
+    "runtime-main.js.map": "/GasolinePrices/static/js/runtime-main.e6e2b749.js.map",
     "static/css/2.a2a4f66b.chunk.css": "/GasolinePrices/static/css/2.a2a4f66b.chunk.css",
-    "static/js/2.457de379.chunk.js": "/GasolinePrices/static/js/2.457de379.chunk.js",
-    "static/js/2.457de379.chunk.js.map": "/GasolinePrices/static/js/2.457de379.chunk.js.map",
-    "static/js/3.83ebb7cf.chunk.js": "/GasolinePrices/static/js/3.83ebb7cf.chunk.js",
-    "static/js/3.83ebb7cf.chunk.js.map": "/GasolinePrices/static/js/3.83ebb7cf.chunk.js.map",
+    "static/js/2.f8c82bd2.chunk.js": "/GasolinePrices/static/js/2.f8c82bd2.chunk.js",
+    "static/js/2.f8c82bd2.chunk.js.map": "/GasolinePrices/static/js/2.f8c82bd2.chunk.js.map",
+    "static/js/3.acc63e91.chunk.js": "/GasolinePrices/static/js/3.acc63e91.chunk.js",
+    "static/js/3.acc63e91.chunk.js.map": "/GasolinePrices/static/js/3.acc63e91.chunk.js.map",
     "index.html": "/GasolinePrices/index.html",
     "static/css/2.a2a4f66b.chunk.css.map": "/GasolinePrices/static/css/2.a2a4f66b.chunk.css.map",
     "static/css/main.8f44b6e6.chunk.css.map": "/GasolinePrices/static/css/main.8f44b6e6.chunk.css.map",
-    "static/js/2.457de379.chunk.js.LICENSE.txt": "/GasolinePrices/static/js/2.457de379.chunk.js.LICENSE.txt",
+    "static/js/2.f8c82bd2.chunk.js.LICENSE.txt": "/GasolinePrices/static/js/2.f8c82bd2.chunk.js.LICENSE.txt",
     "static/media/font-awesome.min.css": "/GasolinePrices/static/media/fontawesome-webfont.f691f37e.woff"
   },
   "entrypoints": [
-    "static/js/runtime-main.97578549.js",
+    "static/js/runtime-main.e6e2b749.js",
     "static/css/2.a2a4f66b.chunk.css",
-    "static/js/2.457de379.chunk.js",
+    "static/js/2.f8c82bd2.chunk.js",
     "static/css/main.8f44b6e6.chunk.css",
-    "static/js/main.af5dafc3.chunk.js"
+    "static/js/main.e4bc4ed2.chunk.js"
   ]
 }
