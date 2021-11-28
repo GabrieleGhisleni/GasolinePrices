@@ -1,4 +1,6 @@
-from fetch_and_save import FetchSave
+from fetch_and_save import FetchSave 
+
+
 from static_stations import StaticStations
 import datetime as dt
 import argparse
