@@ -20,6 +20,6 @@ def main():
 
 
 if __name__ == '__main__':
-    "IoniC"
+    "IoniC2"
     main()
 
