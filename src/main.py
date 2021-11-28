@@ -4,6 +4,7 @@ import datetime as dt
 import argparse
 
 
+
 def main():
     def time_(): return dt.datetime.now().strftime("%H:%M:%S")
     arg_parse = argparse.ArgumentParser(description='Argument for GitHub Actions')
@@ -19,5 +20,6 @@ def main():
 
 
 if __name__ == '__main__':
+    "IoniC"
     main()
 
