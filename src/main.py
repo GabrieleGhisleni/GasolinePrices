@@ -1,7 +1,8 @@
-from fetch_and_save import FetchSave
+from fetch_and_save import FetchSave 
 from static_stations import StaticStations
 import datetime as dt
 import argparse
+
 
 
 def main():
@@ -19,5 +20,6 @@ def main():
 
 
 if __name__ == '__main__':
+    "IoniC2"
     main()
 
