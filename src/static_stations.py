@@ -9,28 +9,27 @@ import os
 
 class StaticStations:
     def __init__(self, url_impianti="https://www.mise.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv", url_municipality='./data/municipalities.geojson'):
-        try: df_impianti = pd.read_csv(url_impianti, delimiter=';', skiprows=1)
-        except Exception as e: 
-            print(f"{e} while fetching data from {url_impianti}")
-            sys.exit()
+        df_impianti = pd.read_csv(url_impianti, delimiter=';', skiprows=1, on_bad_lines='skip') 
+        df_impianti.dropna(subset=['Latitudine', 'Longitudine']).reset_index(drop=True, inplace=True)
         self.geo_stations = gpd.GeoDataFrame(df_impianti, crs='EPSG:4326', geometry=gpd.points_from_xy(df_impianti.Longitudine, df_impianti.Latitudine))
         self.geo_stations = self.geo_stations.loc[self.geo_stations.geometry.is_valid,:]
         self.municipalities = gpd.read_file(url_municipality)
+        print('Loaded static and starting the process!')
 
 
     def update_static_storage(self):
         storage = []
         total_error, actual, remaining, start = 0, 0, len(self.municipalities), dt.datetime.now()
-        print('Loaded static and starting the process!')
+
         for idx, row in self.municipalities.iterrows():
-            if row.COMUNE == 'Medolago':
-                try:
-                    storage.append(self.process_municipality(self.municipalities.iloc[idx:idx+1]))
-                except Exception as e:
-                    print(e)
-                    total_error += 1
+            try:
+                storage.append(self.process_municipality(self.municipalities.iloc[idx:idx+1]))
+            except Exception as e:
+                print(e)
+                total_error += 1
             actual += 1
             if actual % 1000 == 0: print(f'actual={actual}, remaining={remaining-actual}, execution time: {dt.datetime.now() - start}')
+        
         print(f'Finished processing, total error={total_error} execution time: {dt.datetime.now() - start}')
         res = pd.concat(storage)
         res.to_csv('./data/municipalities.csv.zip', compression="zip", index=False)
