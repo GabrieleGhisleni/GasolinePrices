@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "opengasoline"
+version = "0.1.0"
+description = "app for finding the cheapest gasoline!"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^1.5.0"
+geopandas = "0.11.1"
+numpy = "^1.23.3"
+Fiona = "^1.8.21"
+jupyter = "^1.0.0"
+requests = "^2.28.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
