@@ -7,12 +7,12 @@ src/names.json
 # dependencies
 /gasoline/node_modules
 /gasoline/.pnp
-/data/prices_for_municipality
+#/data/prices_for_municipality
 /node_modules
 /.pnp
 .pnp.js
 
-*.json
+#*.json
 
 # testing
 /coverage
