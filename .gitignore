@@ -12,6 +12,8 @@ src/names.json
 /.pnp
 .pnp.js
 
+*.json
+
 # testing
 /coverage
 
