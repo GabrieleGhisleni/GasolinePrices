@@ -1,6 +1,8 @@
 name: refresh stations
 
 on:
+  push:
+    - branches: main
   schedule:
     - cron: '15 3 */14 * *'
 
@@ -29,7 +31,7 @@ jobs:
 #          pip install -r requirements.txt
 #
       - name: execute py script 
-        run: poetry run src/main.py --new
+        run: poetry run python src/main.py --new
           
       - name: commit files
         run: |
