@@ -1,4 +1,4 @@
-import src.utils as utils
+import utils
 
 from dataclasses import dataclass
 from tqdm.auto import tqdm
