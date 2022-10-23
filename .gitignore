@@ -11,7 +11,7 @@ src/names.json
 /node_modules
 /.pnp
 .pnp.js
-
+src/EDA.ipynb
 #*.json
 
 # testing
