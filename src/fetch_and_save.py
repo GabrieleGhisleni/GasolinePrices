@@ -51,7 +51,7 @@ class FetchSave:
                 )
 
         logger.success(
-            f"completed, municipality skipped: {total_error}, total time: {start-dt.datetime.now()}"
+            f"completed, municipality skipped: {total_error}, total time: {dt.datetime.now()-start}"
         )
 
     def process_and_save(self, comune: pd.Series):
