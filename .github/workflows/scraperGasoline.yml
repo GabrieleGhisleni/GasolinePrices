@@ -5,7 +5,7 @@ on:
     - cron: '15 1 */2 * *'
 
 jobs:
-  build:
+  bgituild:
     runs-on: ubuntu-latest
     steps:
 
