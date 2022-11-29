@@ -1,36 +1,39 @@
-from shapely.geometry import mapping
+from shapely.geometry import mapping, MultiPolygon
 import geopandas as gpd
+from loguru import logger
+from dataclasses import dataclass
 import datetime as dt
 import pandas as pd
 import json
 import sys
 import os
+import utils
 
 
+@dataclass
 class StaticStations:
-    def __init__(
-        self,
-        url_impianti="https://www.mise.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv",
-        url_municipality="./data/municipalities.geojson",
-    ):
-        df_impianti = pd.read_csv(
-            url_impianti, delimiter=";", skiprows=1, on_bad_lines="skip"
+    impianti_url: str = "https://www.mise.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv"
+    municipality: str = "./data/municipalities.geojson"
+
+    def __init__(self):
+        stations_tmp_df = (
+            pd.read_csv(self.impianti_url, delimiter=";", skiprows=1, on_bad_lines="skip")
+            .dropna(subset=["Latitudine", "Longitudine"])
+            .reset_index(drop=True)
         )
-        df_impianti.dropna(subset=["Latitudine", "Longitudine"]).reset_index(
-            drop=True, inplace=True
+        logger.info(f"fetched stations_tmp_df at {self.impianti_url}")
+        self.geo_stations = (
+            gpd.GeoDataFrame(
+                stations_tmp_df,
+                crs="EPSG:4326",
+                geometry=gpd.points_from_xy(stations_tmp_df.Longitudine, stations_tmp_df.Latitudine)
+            )
+            .pipe(lambda df: df.loc[df.geometry.is_valid])
         )
-        self.geo_stations = gpd.GeoDataFrame(
-            df_impianti,
-            crs="EPSG:4326",
-            geometry=gpd.points_from_xy(
-                df_impianti.Longitudine, df_impianti.Latitudine
-            ),
-        )
-        self.geo_stations = self.geo_stations.loc[
-            self.geo_stations.geometry.is_valid, :
-        ]
-        self.municipalities = gpd.read_file(url_municipality)
-        print("Loaded static and starting the process!")
+        logger.info(f"loaded into geo pandas format")
+
+        self.municipalities = gpd.read_file(self.municipality)
+        logger.info(f"loaded municipalityat: {self.municipality}")
 
     def update_static_storage(self):
         storage = []
@@ -63,83 +66,47 @@ class StaticStations:
         print(f"Finished saving, execution time: {dt.datetime.now() - start}")
 
     def process_municipality(self, comune):
-        def serialize_buffer(buff):
-            if len(buff) > 1:
-                return MultiPolygon(buff.to_crs(epsg=4326).values)
-            else:
-                return buff.to_crs(epsg=4326).values[0]
+        comune_max_buf = utils.serialize_buffer(comune.simplify(500).buffer(5000))
+        comune_three_buf = utils.serialize_buffer(comune.simplify(500).buffer(3000))
+        comune_one_buf = utils.serialize_buffer(comune.simplify(500).buffer(1000))
 
-        area_comune = comune.buffer(0).simplify(10)
-        area_comune = serialize_buffer(area_comune)
-        area_comune = [
-            {"type": "Feature", "properties": {}, "geometry": (mapping(area_comune))}
-        ]
+        area_comune = utils.create_geojson(utils.serialize_buffer(comune.buffer(0).simplify(10)))
+        buffer_one_geojson = utils.create_geojson(comune_one_buf)
+        buffer_three_geojson = utils.create_geojson(comune_three_buf)
+        buffer_max_geojson = utils.create_geojson(comune_max_buf)
+        centroid = utils.create_geojson(comune_max_buf.centroid)
 
-        comune_max_buffer = serialize_buffer(comune.simplify(500).buffer(5000))
-        comune_three_buffer = serialize_buffer(comune.simplify(500).buffer(3000))
-        comune_one_buffer = serialize_buffer(comune.simplify(500).buffer(1000))
-
-        buffer_one_geojson = [
-            {
-                "type": "Feature",
-                "properties": {},
-                "geometry": mapping(comune_one_buffer),
-            }
-        ]
-        buffer_three_geojson = [
-            {
-                "type": "Feature",
-                "properties": {},
-                "geometry": mapping(comune_three_buffer),
-            }
-        ]
-        buffer_max_geojson = [
-            {
-                "type": "Feature",
-                "properties": {},
-                "geometry": mapping(comune_max_buffer),
-            }
-        ]
-        centroid = [
-            {
-                "type": "Feature",
-                "properties": {},
-                "geometry": mapping(comune_max_buffer.centroid),
-            }
+        stats_5 = self.geo_stations[
+            self.geo_stations.geometry.values.within(comune_max_buf)
         ]
 
-        stations_in_max_buffer = self.geo_stations[
-            self.geo_stations.geometry.values.within(comune_max_buffer)
-        ]
-        all_stations = stations_in_max_buffer.copy()
+        all_stations = stats_5.copy()
+        stations_in_one_buffer = stats_5[stats_5.geometry.values.within(comune_one_buf)]
 
-        stations_in_one_buffer = stations_in_max_buffer[
-            stations_in_max_buffer.geometry.values.within(comune_one_buffer)
-        ]
-        stations_in_three_buffer = stations_in_max_buffer[
+        stations_in_three_buffer = stats_5[
             (
-                stations_in_max_buffer.geometry.values.within(comune_three_buffer)
+                stats_5.geometry.values.within(comune_three_buf)
                 & (
                     ~(
-                        stations_in_max_buffer.idImpianto.isin(
+                        stats_5.idImpianto.isin(
                             stations_in_one_buffer.idImpianto
                         )
                     )
                 )
             )
         ]
-        stations_in_max_buffer = stations_in_max_buffer[
+        stations_in_max_buffer = stats_5[
             (
                 (
                     ~(
-                        stations_in_max_buffer.idImpianto.isin(
+                        stats_5.idImpianto.isin(
                             stations_in_three_buffer.idImpianto
                         )
                     )
                 )
                 & (
                     ~(
-                        stations_in_max_buffer.idImpianto.isin(
+                        stats_5.idImpianto.isin(
                             stations_in_one_buffer.idImpianto
                         )
                     )

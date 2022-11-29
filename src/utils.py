@@ -1,6 +1,8 @@
 import json
 import unicodedata
 
+from shapely.geometry import mapping, MultiPolygon
+
 
 def load_json(path) -> dict:
     with open(path, "r") as f:
@@ -29,3 +31,13 @@ def from_encoded_str_array_to_set(arr) -> set | list:
             if (type(arr) != float)
             else [None]
         )
+
+
+def serialize_buffer(buff):
+    if len(buff) > 1:
+        return MultiPolygon(buff.to_crs(epsg=4326).values)
+    return buff.to_crs(epsg=4326).values[0]
+
+
+def create_geojson(comune) -> list[dict]:
+    return [dict(type="Feature", properties={}, geometry=mapping(comune))]

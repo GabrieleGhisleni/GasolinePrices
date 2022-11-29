@@ -29,7 +29,7 @@ jobs:
 #          pip install -r requirements.txt
 #
       - name: execute py script 
-        run: poetry run python src/main.py --new
+        run: poetry run python src/static_stations.py
           
       - name: commit files
         run: |

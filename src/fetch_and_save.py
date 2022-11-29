@@ -7,6 +7,7 @@ import datetime as dt
 import pandas as pd
 import copy
 
+
 @dataclass
 class FetchSave:
     prices_url: str = "https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv"
@@ -36,9 +37,7 @@ class FetchSave:
         current, total_error = 0, 0
         starting_time = dt.datetime.now()
 
-        for _, row in tqdm(
-                self.municipalities_df.iterrows(), total=len(self.municipalities_df)
-        ):
+        for _, row in self.municipalities_df.iterrows():
             try:
                 self.process_and_save(row)
             except Exception as e:
