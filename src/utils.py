@@ -27,7 +27,7 @@ def remove_punctuations(text: str) -> str:
 
 def from_encoded_str_array_to_set(arr) -> set | list:
     return (
-            set([int(x) for x in arr.split(";")])
+            set([int(x) for x in arr.split(";") if x != " "])
             if (type(arr) != float)
             else [None]
         )

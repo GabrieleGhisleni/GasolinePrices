@@ -33,7 +33,7 @@ class StaticStations:
         logger.info(f"Loaded into geo pandas format, number of row: {len(self.geo_stations)}")
 
         self.municipalities = gpd.read_file(self.municipality)
-        logger.info(f"Loaded municipality at: {self.municipality}")
+        logger.info(f"Loaded municipality at: {self.municipality}: number of row {len(self.municipalities)}")
 
     def update_static_storage(self):
         start = dt.datetime.now()
@@ -52,12 +52,13 @@ class StaticStations:
                     f"execution time: {dt.datetime.now() - start}"
                 )
 
+        pd.DataFrame(storage).to_csv("data/municipalities.csv.zip", compression="zip", index=False)
+
         logger.success(
             f"Finished processing, total error={total_error} "
             f"execution time: {dt.datetime.now() - start}"
         )
 
-        pd.DataFrame(storage).to_csv("data/municipalities.csv.zip", compression="zip", index=False)
 
     def process_municipality(self, municipality) -> dict:
         first_buffer = utils.serialize_buffer(municipality.simplify(500).buffer(self.buffers[0]))
@@ -70,10 +71,10 @@ class StaticStations:
 
         # estrae stazioni nel primo bufer e in seguito esclude tali stazioni da `all_stats_nearby`
         stations_in_one_buffer = all_stats_nearby[all_stats_nearby.geometry.values.within(first_buffer)]
-        all_stats_nearby = all_stats_nearby.loc[~all_stats_nearby.index.isin(stations_in_one_buffer.index)]
 
-        stations_in_three_buffer = all_stats_nearby[all_stats_nearby.geometry.values.within(second_buffer)]
-        stations_in_max_buffer = all_stats_nearby.loc[~all_stats_nearby.index.isin(stations_in_three_buffer.index)]
+        remaining_stats = all_stats_nearby.loc[~all_stats_nearby.index.isin(stations_in_one_buffer.index)]
+        stations_in_three_buffer = remaining_stats[remaining_stats.geometry.values.within(second_buffer)]
+        stations_in_max_buffer = remaining_stats.loc[~remaining_stats.index.isin(stations_in_three_buffer.index)]
 
         return {
             "centroid": json.dumps(utils.create_geojson(third_max_buffer.centroid)),
@@ -82,12 +83,20 @@ class StaticStations:
             "buffer_1": json.dumps(utils.create_geojson(first_buffer)),
             "buffer_3": json.dumps(utils.create_geojson(second_buffer)),
             "buffer_5": json.dumps(utils.create_geojson(third_max_buffer)),
-            "stationsId_one": ";".join(stations_in_one_buffer.idImpianto.unique().astype('str').tolist()),
-            "stationsId_three": ";".join(stations_in_three_buffer.idImpianto.unique().astype('str').tolist()),
-            "stationsId_five": ";".join(stations_in_max_buffer.idImpianto.unique().astype('str').tolist()),
-            "all_stations": ";".join(all_stats_nearby.idImpianto.unique().astype('str').tolist()),
+            "stationsId_one": self.from_np_to_array_of_str(stations_in_one_buffer),
+            "stationsId_three": self.from_np_to_array_of_str(stations_in_three_buffer),
+            "stationsId_five": self.from_np_to_array_of_str(stations_in_max_buffer),
+            "all_stations": self.from_np_to_array_of_str(all_stats_nearby),
             **municipality.to_dict(orient='records')[0]
         }
+
+    @staticmethod
+    def from_np_to_array_of_str(df: pd.DataFrame, col: str = 'idImpianto'):
+        val = df[col].unique().astype('str')
+        if val.size != 0:
+            return ";".join(val.tolist())
+        return " "
+
 
 
 if __name__ == "__main__":
