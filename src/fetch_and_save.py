@@ -18,13 +18,13 @@ class FetchSave:
     def __init__(self):
         self.prices = (
             pd.read_csv(self.prices_url, delimiter=";", skiprows=1)
-            .assign(descCarburante=lambda x: x.descCarburante.apply(utils.remove_punctuations))
+            .assign(descCarburante=lambda x: x.descCarburante.apply(self.standard_gasoline))
         )
 
         logger.info(f"Loaded prices from {self.prices_url}")
         self.municipalities_df = (
             pd.read_csv(self.municipalities)
-            .assign(COMUNE=lambda x: x.COMUNE.apply(self.standard_gasoline))
+            .assign(COMUNE=lambda x: x.COMUNE.apply(utils.remove_punctuations))
 
         )
         logger.info(f"Loaded municipalities from {self.municipalities}")
@@ -34,18 +34,24 @@ class FetchSave:
         logger.info(f"Loaded stations details from {self.stations_json}")
 
     def update_daily_storage(self):
-        current, total_error = 0, 0
-        starting_time = dt.datetime.now()
+        total_error = 0
+        start = dt.datetime.now()
 
-        for _, row in self.municipalities_df.iterrows():
+        for idx, (_, row) in enumerate(self.municipalities_df.iterrows()):
             try:
                 self.process_and_save(row)
             except Exception as e:
                 total_error += 1
                 logger.error(e)
 
+            if idx and not idx % 500:
+                logger.info(
+                    f"actual={idx}, remaining={len(self.municipalities_df)-idx}, "
+                    f"execution time: {dt.datetime.now() - start}"
+                )
+
         logger.success(
-            f"completed, municipality skipped: {total_error}, total time: {starting_time-dt.datetime.now()}"
+            f"completed, municipality skipped: {total_error}, total time: {start-dt.datetime.now()}"
         )
 
     def process_and_save(self, comune: pd.Series):
@@ -90,57 +96,33 @@ class FetchSave:
         if not extracted_only_carb.empty:
             for idx in range(len(extracted_only_carb)):
                 if str(extracted_only_carb.iloc[idx].idImpianto) in self.stations_details:
-                    stations_detail = copy.deepcopy(
-                        self.stations_details[str(extracted_only_carb.iloc[idx].idImpianto)]
-                    )
-                    stations_detail["price"] = extracted_only_carb.iloc[idx].prezzo
-                    stations_detail["ultima_rilevazione"] = extracted_only_carb.iloc[idx].dtComu
-                    list_of_processed_station.append(stations_detail)
+                    list_of_processed_station.append({
+                        "price": extracted_only_carb.iloc[idx].prezzo,
+                        "ultima_rilevazione": extracted_only_carb.iloc[idx].dtComu,
+                        **self.stations_details[str(extracted_only_carb.iloc[idx].idImpianto)]
+                    })
+
         return list_of_processed_station
 
     @staticmethod
     def standard_gasoline(carb: str) -> str:
-        if carb == "Benzina":
-            return "Benzina"
-        if carb == "Benzina Plus":
-            return "Benzina"
-        if carb == "Benzina WR 100":
-            return "Benzina"
-        if carb == "Benzina speciale 320":
-            return "Benzina"
-        if carb == "Blue Diesel":
-            return "Blue Diesel"
-        if carb == "Blue Super":
-            return "Blue Diesel"
-        if carb == "DieselMax":
-            return "Diesel High Quality"
-        if carb == "Excellium Diesel":
-            return "Diesel High Quality"
-        if carb == "Supreme Diesel":
-            return "Diesel High Quality"
-        if carb == "Hi-Q Diesel":
-            return "Diesel High Quality"
-        if carb == "HiQ Perform+":
-            return "Diesel High Quality"
-        if carb == "Supreme Diesel":
-            return "Diesel High Quality"
         if carb == "Gasolio":
             return "Gasolio"
-        if carb == "Gasolio Alpino":
-            return "Gasolio High Quality"
-        if carb == "Gasolio Oro Diesel":
-            return "Gasolio High Quality"
-        if carb == "Gasolio Premium":
-            return "Gasolio High Quality"
-        if carb == "Gasolio speciale":
-            return "Gasolio High Quality"
-        if carb == "Metano":
+        elif carb == "Benzina":
+            return "Benzina"
+        elif carb == "Metano":
             return "Metano"
-        if carb == "GPL":
+        elif carb == "GPL":
             return "GPL"
-        return None
 
+        elif carb in {"Benzina Plus", "Benzina WR 100", "Benzina speciale 320", "Benzina speciale"}:
+            return "Benzina High quality"
 
+        if carb in {
+            "DieselMax", "Excellium Diesel", "Supreme Diesel", "Hi-Q Diesel", "HiQ Perform+", "Supreme Diesel",
+            "Blue Diesel", "Blue Super", "Gasolio Alpino", "Gasolio Oro Diesel", "Gasolio Premium", "Gasolio speciale",
+        }:
+            return "Diesel High Quality"
 
 
 if __name__ == "__main__":
