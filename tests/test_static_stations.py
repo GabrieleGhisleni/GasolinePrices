@@ -7,7 +7,7 @@ from src import utils
 
 
 class TestStaticStations:
-    output_file_path = "data/municipalities.csv.zip"
+    output_file_path = "./data/municipalities.csv.zip"
 
     def _get_items(self, n: int) -> Iterator[pd.Series]:
         static_stations = pd.read_csv(self.output_file_path)

@@ -7,7 +7,7 @@ from src import utils
 
 
 class TestPricesStations:
-    output_file_dir = "data/prices_for_municipality"
+    output_file_dir = "./data/prices_for_municipality"
     bases = {'Benzina', 'Gasolio', 'GPL', 'Metano'}
 
     def _get_items(self, n: int) -> list:
