@@ -3,7 +3,7 @@ __pycache__
 src/names.json
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
+./tests/.pytest_cache
 # dependencies
 /gasoline/node_modules
 /gasoline/.pnp
@@ -14,6 +14,7 @@ src/names.json
 src/EDA.ipynb
 #*.json
 .idea
+/.idea
 # testing
 /coverage
 
