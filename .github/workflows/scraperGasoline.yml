@@ -26,11 +26,12 @@ jobs:
       - name: install Poetry
         uses: snok/install-poetry@v1
 
-      - name: execute tests
-        run: poetry run pytest tests/test_refresh_prices.py
 
       - name: install dependencies
         run: poetry install --no-interaction
+
+      - name: execute tests
+        run: poetry run pytest tests/test_refresh_prices.py
 
       - name: execute py script
         run: poetry run python src/fetch_and_save.py
