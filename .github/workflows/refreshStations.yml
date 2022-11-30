@@ -2,7 +2,8 @@ name: refresh stations
 
 on:
   push:
-    - "**"
+    - branches:
+      - "**"
   schedule:
     - cron: '15 3 */14 * *'
 
