@@ -1,6 +1,8 @@
 name: refresh stations
 
 on:
+  push:
+    - "**"
   schedule:
     - cron: '15 3 */14 * *'
 
@@ -23,23 +25,22 @@ jobs:
       - name: install dependecies
         run: poetry install --no-interaction
 
-#      - name: install python packages
-#        run: |
-#          python -m pip install --upgrade pip
-#          pip install -r requirements.txt
-#
-      - name: execute py script 
+      - name: execute py script
         run: poetry run python src/static_stations.py
-          
+
+      - name: execute tests
+        run: poetry run pytest tests/test_static_stations.py
+
       - name: commit files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add -A
           git commit -m "update data" -a
-          
+
       - name: push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master  
+          branch: master
+
+
