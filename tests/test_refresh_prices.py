@@ -1,7 +1,5 @@
 import os
-from typing import Iterator
 import datetime as dt
-import pandas as pd
 
 from src import utils
 

@@ -26,23 +26,24 @@ jobs:
       - name: install Poetry
         uses: snok/install-poetry@v1
 
-      - name: install dependencies
-        run: poetry install --no-interaction
       - name: execute tests
         run: poetry run pytest tests/test_refresh_prices.py
+
+      - name: install dependencies
+        run: poetry install --no-interaction
 
       - name: execute py script
         run: poetry run python src/fetch_and_save.py
 
 
-#      - name: commit files
-#        run: |
-#          git config --local user.email "action@github.com"
-#          git config --local user.name "GitHub Action"
-#          git commit -m "update data" -a
-#
-#      - name: push changes
-#        uses: ad-m/github-push-action@v0.6.0
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          branch: master
+      - name: commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "update data" -a
+
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
