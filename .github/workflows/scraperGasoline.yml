@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: '15 3 */14 * *'
 
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
