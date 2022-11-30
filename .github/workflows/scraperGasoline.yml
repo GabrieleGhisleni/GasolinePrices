@@ -30,12 +30,11 @@ jobs:
       - name: install dependencies
         run: poetry install --no-interaction
 
-      - name: execute tests
-        run: poetry run pytest tests/test_refresh_prices.py
-
       - name: execute py script
         run: poetry run python src/fetch_and_save.py
 
+      - name: execute tests
+        run: poetry run pytest tests/test_refresh_prices.py
 
       - name: commit files
         run: |
