@@ -26,6 +26,7 @@ jobs:
         run: poetry install --no-interaction
 
   fetch:
+    needs: build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -35,6 +36,7 @@ jobs:
         run: poetry run python src/static_stations.py
 
   tests:
+    needs: fetch
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -45,6 +47,7 @@ jobs:
 
   updatingGit:
     runs-on: ubuntu-latest
+    needs: tests
     steps:
       - name: commit files
         run: |
