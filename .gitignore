@@ -13,7 +13,7 @@ src/names.json
 .pnp.js
 src/EDA.ipynb
 #*.json
-
+.idea
 # testing
 /coverage
 
