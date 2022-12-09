@@ -50,6 +50,7 @@ class TestPricesStations:
                             fresh += 1
 
         logger.success((fresh / (fresh+older)))
+
         assert (fresh / (fresh+older)) > .5
 
 
