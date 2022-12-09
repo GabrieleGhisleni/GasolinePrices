@@ -1,6 +1,8 @@
 import os
 import datetime as dt
 
+from loguru import logger
+
 from src import utils
 
 
@@ -47,8 +49,8 @@ class TestPricesStations:
                         else:
                             fresh += 1
 
-        print((fresh / (fresh+older)))
-        assert (fresh / (fresh+older)) > .7
+        logger.success((fresh / (fresh+older)))
+        assert (fresh / (fresh+older)) > .5
 
 
     def test_stations_medolago(self):
