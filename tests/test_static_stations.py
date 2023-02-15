@@ -45,5 +45,5 @@ class TestStaticStations:
     def test_stations_medolago(self):
         item = self._get_item(name='medolago').to_dict(orient='records')[0]
         assert item["stationsId_one"] == '36320;25733'
-        assert item["stationsId_three"] == '50176;38229;54369;25303;11431;39057;26246;36373;15828'
+        assert item["stationsId_three"] == '50176;38229;54369;55055;25303;11431;39057;26246;36373;15828'
         assert item["stationsId_five"] == '46031;54900;4644;33398;48550;54373;11306;15311;43387;50286;16552;11253;51452'

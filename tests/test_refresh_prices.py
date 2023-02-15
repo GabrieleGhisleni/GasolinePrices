@@ -53,7 +53,6 @@ class TestPricesStations:
 
         assert (fresh / (fresh+older)) > .5
 
-
     def test_stations_medolago(self):
         item = self._get_item(name='medolago.json')
         all_stationsIds_in_medolago = {
@@ -61,7 +60,7 @@ class TestPricesStations:
            '4644', '36320', '11306', '54373', '11253',
            '48550', '54369', '25303', '51452', '33398',
            '50286', '26246', '25733', '43387', '36373',
-           '39057', '38229', '15311', '11431', '15828'
+           '39057', '38229', '15311', '11431', '15828', '55055'
         }
 
         for carb in self.bases:
