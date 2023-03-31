@@ -2,7 +2,7 @@
 name = "opengasoline"
 version = "0.1.0"
 description = "app for finding the cheapest gasoline!"
-authors = ["Your Name <you@example.com>"]
+authors = ["gabriele.ghisleni01@gmail.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

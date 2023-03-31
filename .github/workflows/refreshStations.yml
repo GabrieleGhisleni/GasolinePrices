@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "/"
+        working-directory: "./"
     steps:
 
       - name: checkout repo content

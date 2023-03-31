@@ -12,8 +12,8 @@ export interface FormState {
 
 interface DetailFormProps {
     onSubmit: (event: FormState) => void,
+    smartRefresh: (event: React.ChangeEvent<HTMLInputElement>) => void
     nameHints: string[]
-    smartRefresh: (event: any) => void
 }
 
 const DetailForms: React.FC<DetailFormProps> = ({onSubmit, nameHints, smartRefresh}) => {
@@ -109,7 +109,10 @@ const DetailForms: React.FC<DetailFormProps> = ({onSubmit, nameHints, smartRefre
                                                         <Input type="radio"
                                                                name='area_coverage' value={value}
                                                                checked={form.area_coverage === value}
-                                                               onChange={handleChange}/>
+                                                               onChange={(e) => {
+                                                                   smartRefresh(e);
+                                                                   handleChange(e);
+                                                               }}/>
                                                         {value} km
                                                     </Label>
                                                 </FormGroup>
@@ -134,7 +137,10 @@ const DetailForms: React.FC<DetailFormProps> = ({onSubmit, nameHints, smartRefre
                                                         <Input type="radio"
                                                                name='number_stations' value={value}
                                                                checked={form.number_stations === value}
-                                                               onChange={handleChange}/>
+                                                               onChange={(e) => {
+                                                                   smartRefresh(e);
+                                                                   handleChange(e);
+                                                               }}/>
                                                         {value}
                                                     </Label>
                                                 </FormGroup>
