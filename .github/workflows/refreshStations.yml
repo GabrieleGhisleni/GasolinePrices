@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "./"
+        working-directory: "/"
     steps:
 
       - name: checkout repo content
@@ -31,6 +31,9 @@ jobs:
 
       - name: execute py script
         run: poetry run python src/static_stations.py
+
+      - name: execute py script 2
+        run: poetry run python src/refresh_details.py
 
       - name: execute tests
         run: poetry run pytest tests/test_static_stations.py

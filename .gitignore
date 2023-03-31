@@ -17,7 +17,7 @@ src/EDA.ipynb
 /.idea
 # testing
 /coverage
-
+*.ini*
 # production
 /build
 

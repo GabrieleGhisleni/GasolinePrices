@@ -1,11 +1,11 @@
 import json
 import unicodedata
 
-from shapely.geometry import mapping, MultiPolygon
+from shapely.geometry import MultiPolygon, mapping
 
 
 def load_json(path) -> dict:
-    with open(path, "r") as f:
+    with open(path) as f:
         return json.load(f)
 
 
@@ -26,11 +26,7 @@ def remove_punctuations(text: str) -> str:
 
 
 def from_encoded_str_array_to_set(arr) -> set | list:
-    return (
-            set([int(x) for x in arr.split(";") if x != " "])
-            if (type(arr) != float)
-            else [None]
-        )
+    return {x for x in arr.split(";") if x != " "} if (type(arr) != float) else [None]
 
 
 def serialize_buffer(buff):
@@ -39,5 +35,5 @@ def serialize_buffer(buff):
     return buff.to_crs(epsg=4326).values[0]
 
 
-def create_geojson(comune) -> list[dict]:
-    return [dict(type="Feature", properties={}, geometry=mapping(comune))]
+def create_geojson(comune) -> dict:
+    return mapping(comune)

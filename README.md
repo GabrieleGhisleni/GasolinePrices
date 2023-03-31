@@ -16,3 +16,8 @@ This application take advantage of the github actions and the possibility to ove
 3. Every five days another Github action call others scripts that update the meta-data on the gasoline stations (such as name and other properties) allowing to include new stations, in case they are.
 
 4. This is the map of all the gasolines stations in italy: ![Image](../master/data/italian-station.png)
+
+-------------
+
+1. `municipalities.geojson` has been downloaded once and is the map of the italy containing the boundaries of each municipality.
+2. 
