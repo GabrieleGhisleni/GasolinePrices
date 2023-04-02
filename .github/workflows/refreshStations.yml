@@ -1,4 +1,5 @@
 name: refresh stations
+DOCKER_IMAGE_NAME: ghcr.io/GabrieleGhisleni/GasolinePrices/opengasoline:latest
 
 on:
   push:
@@ -20,7 +21,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/GabrieleGhisleni/GasolinePrices/opengasoline:latest
+          tags: ${{ DOCKER_IMAGE_NAME }}
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -32,10 +33,10 @@ jobs:
 
     steps:
       - name: Run Python app
-        run: docker run ghcr.io/GabrieleGhisleni/GasolinePrices/opengasoline:latest poetry run python src/static_stations.py
+        run: docker run ${{ DOCKER_IMAGE_NAME }} poetry run python src/static_stations.py
 
       - name: Run refresh details script
-        run: docker run ghcr.io/GabrieleGhisleni/GasolinePrices/opengasoline:latest poetry run python src/refresh_details.py
+        run: docker run ${{ DOCKER_IMAGE_NAME }} poetry run python src/refresh_details.py
 
   test:
     needs: [build, deploy]
@@ -44,7 +45,7 @@ jobs:
     steps:
       - name: Run tests
         continue-on-error: true
-        run: docker run ghcr.io/GabrieleGhisleni/GasolinePrices/opengasoline:latest poetry run pytest src/test_static_stations.py
+        run: docker run ${{ DOCKER_IMAGE_NAME }} poetry run pytest src/test_static_stations.py
 
   post-deploy:
       runs-on: ubuntu-latest
