@@ -28,11 +28,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: login-registry
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Refresh static stations
         run: docker run -v ${PWD}/data/static_stations:/home/src/data/static_stations ${{ env.DOCKER_IMAGE }} poetry run python static_stations.py
 
       - name: Run refresh details script
         run: docker run  -v ${PWD}/data/details:/home/src/data/details ${{ env.DOCKER_IMAGE }} poetry run python refresh_details.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update data"
+          git push
 
   test:
     needs:  deploy
@@ -42,20 +53,4 @@ jobs:
       - name: Run tests
         continue-on-error: true
         run: docker run ${{ env.DOCKER_IMAGE }} poetry run pytest test_static_stations.py
-
-  post-deploy:
-      runs-on: ubuntu-latest
-      needs:  test
-
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v2
-
-        - name: Commit and push changes
-          run: |
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git add .
-            git commit -m "Update data"
-            git push
 
