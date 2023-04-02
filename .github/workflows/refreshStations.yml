@@ -1,6 +1,8 @@
 name: refresh stations
+
 env:
-  DOCKER_IMAGE_NAME: ghcr.io/gabrieleghisleni/gasolineprices/opengasoline:latest
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 on:
   push:
@@ -17,12 +19,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build Docker image
-        uses: docker/build-push-action@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ env.DOCKER_IMAGE_NAME }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
 
 
@@ -32,10 +48,10 @@ jobs:
 
     steps:
       - name: Run Python app
-        run: docker run ${{ env.DOCKER_IMAGE_NAME }} poetry run python src/static_stations.py
+        run: docker run ${{ steps.meta.outputs.labels }}:${{ steps.meta.outputs.tags }} poetry run python src/static_stations.py
 
       - name: Run refresh details script
-        run: docker run ${{ env.DOCKER_IMAGE_NAME }} poetry run python src/refresh_details.py
+        run: docker run ${{ steps.meta.outputs.labels }}:${{ steps.meta.outputs.tags }} poetry run python src/refresh_details.py
 
   test:
     needs: [build, deploy]
@@ -44,7 +60,7 @@ jobs:
     steps:
       - name: Run tests
         continue-on-error: true
-        run: docker run ${{ env.DOCKER_IMAGE_NAME }} poetry run pytest src/test_static_stations.py
+        run: docker run ${{ steps.meta.outputs.labels }}:${{ steps.meta.outputs.tags }} poetry run pytest src/test_static_stations.py
 
   post-deploy:
       runs-on: ubuntu-latest
