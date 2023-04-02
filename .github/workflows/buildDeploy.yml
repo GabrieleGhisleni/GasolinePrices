@@ -9,8 +9,8 @@ env:
 on:
   push:
     branches:
-      - "master"
-    if: github.ref == 'refs/heads/master'
+      - "*"
+#    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
 jobs:
