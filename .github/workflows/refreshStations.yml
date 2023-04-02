@@ -1,8 +1,10 @@
 name: refresh stations
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_USERNAME: gabrieleghisleni
+  DOCKER_REPOSITORY: open-gasoline
+  DOCKER_IMAGE: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}
 
 on:
   push:
@@ -12,46 +14,16 @@ on:
     - cron: '15 3 */14 * *'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
-
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run Python app
-        run: docker run ghcr.io/gabrieleghisleni/gasolineprices:opengasoline-v2 poetry run python src/static_stations.py
+      - name: Refresh static stations
+        run: docker run ${{env.DOCKER_IMAGE}} poetry run python static_stations.py
 
       - name: Run refresh details script
-        run: docker run ghcr.io/gabrieleghisleni/gasolineprices:opengasoline-v2 poetry run python src/refresh_details.py
+        run: docker run  ${{env.DOCKER_IMAGE}} poetry run python refresh_details.py
 
   test:
     needs: [build, deploy]
@@ -60,7 +32,7 @@ jobs:
     steps:
       - name: Run tests
         continue-on-error: true
-        run: docker run ghcr.io/gabrieleghisleni/gasolineprices:opengasoline-v2 poetry run pytest src/test_static_stations.py
+        run: docker run ghcr.io/gabrieleghisleni/gasolineprices:opengasoline-v2 poetry run pytest test_static_stations.py
 
   post-deploy:
       runs-on: ubuntu-latest

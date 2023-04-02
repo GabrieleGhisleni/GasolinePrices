@@ -1,5 +1,11 @@
 name: scraper-gasoline-italian-prices
 
+env:
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_USERNAME: gabrieleghisleni
+  DOCKER_REPOSITORY: open-gasoline
+  DOCKER_IMAGE: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}
+
 on:
   push:
     branches:
@@ -8,42 +14,32 @@ on:
     - cron: '15 1 */2 * *'
 
 jobs:
-  build:
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "./"
+      - name: Run refresh details script
+        run: docker run ${{env.DOCKER_IMAGE}} poetry run python fetch_and_save.py
+
+  test:
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+
     steps:
+      - name: Run tests
+        continue-on-error: true
+        run: docker run  ${{env.DOCKER_IMAGE}} poetry run pytest test_refresh_prices.py
 
-      - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to github runner
+  post-deploy:
+      runs-on: ubuntu-latest
+      needs: [build, test]
 
-      - name: setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10.4'
+      steps:
+        - name: Commit and push changes
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git commit -m "Update data"
+            git push
 
-      - name: install Poetry
-        uses: snok/install-poetry@v1
 
-
-      - name: install dependencies
-        run: poetry install --no-interaction
-
-      - name: execute py script
-        run: poetry run python src/fetch_and_save.py
-
-      - name: execute tests
-        run: poetry run pytest tests/test_refresh_prices.py
-
-      - name: commit files
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "update data" -a
-
-      - name: push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
