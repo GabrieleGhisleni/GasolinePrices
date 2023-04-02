@@ -32,7 +32,7 @@ jobs:
           uses: actions/checkout@v2
 
         - name: Run refresh details script
-          run: docker run -v ./data/prices_for_municipality:/home/src/data/data/prices_for_municipality ${{ env.DOCKER_IMAGE }} poetry run python fetch_and_save.py
+          run: docker run -v ./data/prices_for_municipality:/home/src/data/prices_for_municipality ${{ env.DOCKER_IMAGE }} poetry run python fetch_and_save.py
 
         - name: check2
           run: ls -l  data/prices_for_municipality
