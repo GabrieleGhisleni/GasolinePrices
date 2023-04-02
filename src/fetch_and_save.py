@@ -11,8 +11,8 @@ import utils
 class FetchSave:
     prices_url: str = "https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv"
     json_dir: str = "./data/prices_for_municipality"
-    stations_json: str = "./data/impianti_details.json"
-    municipalities: str = "./data/municipalities.csv.zip"
+    stations_json: str = "./data/details/impianti.json"
+    municipalities: str = "./data/static_stations/municipalities.csv.zip"
 
     def __init__(self):
         self.prices = (

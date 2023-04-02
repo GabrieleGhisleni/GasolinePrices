@@ -4,7 +4,7 @@ env:
   DOCKER_REGISTRY: ghcr.io
   DOCKER_USERNAME: gabrieleghisleni
   DOCKER_REPOSITORY: gasolineprices
-  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/gasolineprices:opengasoline-v2
+  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/gasolineprices:master
 
 on:
   push:
