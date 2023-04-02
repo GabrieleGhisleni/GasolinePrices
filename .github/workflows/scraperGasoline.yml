@@ -31,16 +31,10 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v2
 
-        - name: check pwd
-          run: echo ${PWD} && ls -l
-
         - name: Run refresh details script
-          run: docker run -v /data/prices_for_municipality:/data/prices_for_municipality ${{ env.DOCKER_IMAGE }} poetry run python fetch_and_save.py
+          run: docker run -v ./data/prices_for_municipality:/home/src/data/data/prices_for_municipality ${{ env.DOCKER_IMAGE }} poetry run python fetch_and_save.py
 
-        - name: check
-          run: ls -l data
-
-        - name: chack2
+        - name: check2
           run: ls -l  data/prices_for_municipality
 
         - name: Commit and push changes
