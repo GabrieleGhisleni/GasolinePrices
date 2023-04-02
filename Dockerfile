@@ -22,9 +22,9 @@ ENV PYTHONPATH "${PYTHONPATH}:/home"
 COPY /src /home/src
 
 RUN mkdir /home/src/data
-COPY data/impianti_details.json /home/src/data
+COPY data/details/impianti_details.json /home/src/data
 COPY data/municipalities.geojson /home/src/data
-COPY data/municipalities.csv.zip /home/src/data
+COPY data/static_stations/municipalities.csv.zip /home/src/data
 RUN mkdir /home/src/data/prices_for_municipality
 
 WORKDIR /home/src

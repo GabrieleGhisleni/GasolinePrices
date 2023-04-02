@@ -19,5 +19,5 @@ if __name__ == "__main__":
         .drop(columns=["Latitudine", "Longitudine"])
         .assign(geometry=lambda x: x.geometry.apply(lambda y: mapping(y)))
         .set_index("idImpianto")
-        .to_json("./data/impianti.json", orient="index")
+        .to_json("./data/details/impianti.json", orient="index")
     )

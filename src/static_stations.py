@@ -61,7 +61,9 @@ class StaticStations:
                 )
 
         pd.DataFrame(storage).to_csv(
-            "./data/municipalities.csv.zip", compression="zip", index=False
+            "./data/static_stations/municipalities.csv.zip",
+            compression="zip",
+            index=False,
         )
 
         logger.success(
