@@ -14,9 +14,19 @@ on:
     - cron: '15 3 */14 * *'
 
 jobs:
+  login-registry:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ env.DOCKER_REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
     runs-on: ubuntu-latest
-
+    needs: login-registry
     steps:
       - name: Refresh static stations
         run: docker run ${{ env.DOCKER_IMAGE }} poetry run python static_stations.py

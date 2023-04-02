@@ -14,10 +14,22 @@ on:
     - cron: '15 1 */2 * *'
 
 jobs:
+  login-registry:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ env.DOCKER_REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
+    needs: login-registry
     runs-on: ubuntu-latest
-      - name: Run refresh details script
-        run: docker run ${{ env.DOCKER_IMAGE }} poetry run python fetch_and_save.py
+    steps:
+        - name: Run refresh details script
+          run: docker run ${{ env.DOCKER_IMAGE }} poetry run python fetch_and_save.py
 
   test:
     needs: deploy
