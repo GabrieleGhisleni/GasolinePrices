@@ -47,14 +47,15 @@ jobs:
         run: docker run ghcr.io/GabrieleGhisleni/GasolinePrices/opengasoline:latest poetry run pytest src/test_static_stations.py
 
   post-deploy:
-    - runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
       needs: build
 
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "Update data"
-        git push
+      steps:
+        - name: Commit and push changes
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git commit -m "Update data"
+            git push
 
