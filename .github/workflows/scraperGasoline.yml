@@ -28,8 +28,22 @@ jobs:
     needs: login-registry
     runs-on: ubuntu-latest
     steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
         - name: Run refresh details script
           run: docker run -v ${PWD}/data:/data ${{ env.DOCKER_IMAGE }} poetry run python fetch_and_save.py
+
+        - name: check
+          run: ls -l data
+
+        - name: Commit and push changes
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git commit -m "Update data"
+            git push
 
   test:
     needs: deploy
