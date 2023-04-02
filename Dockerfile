@@ -21,5 +21,10 @@ RUN cd /home/src/ && \
 ENV PYTHONPATH "${PYTHONPATH}:/home"
 COPY /src /home/src
 
-RUN cd /home/
-WORKDIR /home/
+RUN mkdir /home/src/data
+COPY data/impianti_details.json /home/src/data
+COPY data/municipalities.geojson /home/src/data
+COPY data/municipalities.csv.zip /home/src/data
+RUN mkdir /home/src/data/prices_for_municipality
+
+WORKDIR /home/src

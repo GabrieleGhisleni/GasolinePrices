@@ -38,7 +38,7 @@ class StaticStations:
         self.geo_stations = self.geo_stations.loc[self.geo_stations.geometry.is_valid]
         logger.info(f"Loaded into geo pandas format: {len(self.geo_stations)}")
 
-        self.municipalities = gpd.read_file(self.municipality).iloc[:10]
+        self.municipalities = gpd.read_file(self.municipality)
         logger.info(f"Loaded local: {self.municipality}, {len(self.municipalities)}")
 
     def update_static_storage(self):
