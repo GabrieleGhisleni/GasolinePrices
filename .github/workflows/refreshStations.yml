@@ -1,50 +1,61 @@
 name: refresh stations
 
+env:
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_USERNAME: gabrieleghisleni
+  DOCKER_REPOSITORY: gasolineprices
+  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/gasolineprices:opengasoline-v2
+
 on:
   push:
     branches:
-        - "**"
+        - "*"
   schedule:
     - cron: '15 3 */14 * *'
 
 jobs:
-  build:
+  login-registry:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "./"
     steps:
-
-      - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to github runner
-
-      - name: setup python
-        uses: actions/setup-python@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
         with:
-          python-version: '3.10.4'
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: install Poetry
-        uses: snok/install-poetry@v1
+  deploy:
+    runs-on: ubuntu-latest
+    needs: login-registry
+    steps:
+      - name: Refresh static stations
+        run: docker run -v ${PWD}/data/static_stations:/home/src/data/static_stations ${{ env.DOCKER_IMAGE }} poetry run python static_stations.py
 
-      - name: install dependencies
-        run: poetry install --no-interaction
+      - name: Run refresh details script
+        run: docker run  -v ${PWD}/data/details:/home/src/data/details ${{ env.DOCKER_IMAGE }} poetry run python refresh_details.py
 
-      - name: execute py script
-        run: poetry run python src/static_stations.py
+  test:
+    needs:  deploy
+    runs-on: ubuntu-latest
 
-      - name: execute tests
-        run: poetry run pytest tests/test_static_stations.py
+    steps:
+      - name: Run tests
+        continue-on-error: true
+        run: docker run ${{ env.DOCKER_IMAGE }} poetry run pytest test_static_stations.py
 
-      - name: commit files
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "update data" -a
+  post-deploy:
+      runs-on: ubuntu-latest
+      needs:  test
 
-      - name: push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
 
+        - name: Commit and push changes
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git commit -m "Update data"
+            git push
 

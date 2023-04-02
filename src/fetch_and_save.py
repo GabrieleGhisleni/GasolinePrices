@@ -1,43 +1,51 @@
-import utils
-
-from dataclasses import dataclass
-from tqdm.auto import tqdm
-from loguru import logger
 import datetime as dt
+from dataclasses import dataclass
+
 import pandas as pd
-import copy
+from loguru import logger
+
+import utils
 
 
 @dataclass
 class FetchSave:
     prices_url: str = "https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv"
     json_dir: str = "./data/prices_for_municipality"
-    stations_json: str = "./data/detail.json"
+    stations_json: str = "./data/impianti_details.json"
     municipalities: str = "./data/municipalities.csv.zip"
 
     def __init__(self):
         self.prices = (
             pd.read_csv(self.prices_url, delimiter=";", skiprows=1)
-            .assign(descCarburante=lambda x: x.descCarburante.apply(self.standard_gasoline))
+            .astype({"idImpianto": "string"})
+            .assign(
+                descCarburante=lambda x: x.descCarburante.apply(self.standard_gasoline),
+            )
+            .merge(
+                (
+                    pd.DataFrame(utils.load_json(self.stations_json)).T.reset_index(
+                        names="idImpianto"
+                    )
+                ),
+                on="idImpianto",
+                how="right",
+            )
         )
 
         logger.info(f"Loaded prices from {self.prices_url}")
-        self.municipalities_df = (
-            pd.read_csv(self.municipalities)
-            .assign(COMUNE=lambda x: x.COMUNE.apply(utils.remove_punctuations))
-
+        self.municipalities_df = pd.read_csv(self.municipalities).assign(
+            COMUNE=lambda x: x.COMUNE.apply(utils.remove_punctuations)
         )
         logger.info(f"Loaded municipalities from {self.municipalities}")
 
         self.unique_gasoline = self.prices.descCarburante.unique()
-        self.stations_details = utils.load_json(self.stations_json)
-        logger.info(f"Loaded stations details from {self.stations_json}")
 
     def update_daily_storage(self):
         total_error = 0
         start = dt.datetime.now()
 
         for idx, (_, row) in enumerate(self.municipalities_df.iterrows()):
+            logger.info(f"processing {row.COMUNE}")
             try:
                 self.process_and_save(row)
             except Exception as e:
@@ -65,44 +73,42 @@ class FetchSave:
         buffer_three_stats = city_stations.loc[city_stations.idImpianto.isin(buffer_3)]
         buffer_five_stats = city_stations.loc[city_stations.idImpianto.isin(buffer_5)]
 
-        res = (
-            comune
-            .rename({"COMUNE": "comune"})
-            [['area_comune', 'comune', 'buffer_1', 'buffer_3', 'buffer_5', 'centroid']]
-            .to_dict()
-        )
+        res = comune.rename({"COMUNE": "comune"})[
+            ["area_comune", "comune", "buffer_1", "buffer_3", "buffer_5", "centroid"]
+        ].to_dict()
 
         for carburante in self.unique_gasoline:
-            res[carburante] = {}
-            for stats_in_buffer, key in zip(
-                    [buffer_one_stats, buffer_three_stats, buffer_five_stats], [1, 3, 5]
-            ):
-                res[carburante][key] = self.from_pd_to_dict(stats_in_buffer, carburante)
+            res[carburante] = {
+                buffer: self.extract_info_to_dict(stats_in_buffer, carburante)
+                for buffer, stats_in_buffer in [
+                    (1, buffer_one_stats),
+                    (3, buffer_three_stats),
+                    (5, buffer_five_stats),
+                ]
+            }
 
-        utils.write_json(f"{self.json_dir}/{res['comune']}.json", res)
+        utils.write_json(f"{self.json_dir}/{res.get('comune')}.json", res)
 
-    def from_pd_to_dict(self, stations, carburante):
-        # todo make this more readable
-        if carburante == "Metano" or carburante == "GPL":
-            extracted_only_carb = stations.loc[
-                (stations.descCarburante == carburante) & (stations.isSelf == 0)
+    def extract_info_to_dict(self, stations, carburante):
+        is_self = 0 if carburante in ["Metano", "GPL"] else 1
+        return (
+            stations.loc[
+                (stations.descCarburante == carburante) & (stations.isSelf == is_self)
             ]
-        else:
-            extracted_only_carb = stations.loc[
-                (stations.descCarburante == carburante) & (stations.isSelf == 1)
+            .rename(columns={"prezzo": "price", "dtComu": "ultima_rilevazione"})[
+                [
+                    "idImpianto",
+                    "price",
+                    "ultima_rilevazione",
+                    "Gestore",
+                    "Indirizzo",
+                    "Comune",
+                    "Bandiera",
+                    "geometry",
+                ]
             ]
-
-        list_of_processed_station = []
-        if not extracted_only_carb.empty:
-            for idx in range(len(extracted_only_carb)):
-                if str(extracted_only_carb.iloc[idx].idImpianto) in self.stations_details:
-                    list_of_processed_station.append({
-                        "price": extracted_only_carb.iloc[idx].prezzo,
-                        "ultima_rilevazione": extracted_only_carb.iloc[idx].dtComu,
-                        **self.stations_details[str(extracted_only_carb.iloc[idx].idImpianto)]
-                    })
-
-        return list_of_processed_station
+            .to_dict(orient="records")
+        )
 
     @staticmethod
     def standard_gasoline(carb: str) -> str:
@@ -115,12 +121,26 @@ class FetchSave:
         elif carb == "GPL":
             return "GPL"
 
-        elif carb in {"Benzina Plus", "Benzina WR 100", "Benzina speciale 320", "Benzina speciale"}:
+        elif carb in {
+            "Benzina Plus",
+            "Benzina WR 100",
+            "Benzina speciale 320",
+            "Benzina speciale",
+        }:
             return "Benzina High quality"
 
         if carb in {
-            "DieselMax", "Excellium Diesel", "Supreme Diesel", "Hi-Q Diesel", "HiQ Perform+", "Supreme Diesel",
-            "Blue Diesel", "Blue Super", "Gasolio Alpino", "Gasolio Oro Diesel", "Gasolio Premium", "Gasolio speciale",
+            "DieselMax",
+            "Excellium Diesel",
+            "Hi-Q Diesel",
+            "HiQ Perform+",
+            "Supreme Diesel",
+            "Blue Diesel",
+            "Blue Super",
+            "Gasolio Alpino",
+            "Gasolio Oro Diesel",
+            "Gasolio Premium",
+            "Gasolio speciale",
         }:
             return "Diesel High Quality"
 

@@ -1,5 +1,11 @@
 name: scraper-gasoline-italian-prices
 
+env:
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_USERNAME: gabrieleghisleni
+  DOCKER_REPOSITORY: gasolineprices
+  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/gasolineprices:opengasoline-v2
+
 on:
   push:
     branches:
@@ -8,42 +14,42 @@ on:
     - cron: '15 1 */2 * *'
 
 jobs:
-  build:
+  login-registry:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "./"
     steps:
-
-      - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to github runner
-
-      - name: setup python
-        uses: actions/setup-python@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
         with:
-          python-version: '3.10.4'
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: install Poetry
-        uses: snok/install-poetry@v1
+  deploy:
+    needs: login-registry
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: Run refresh details script
+          run: docker run -v ${PWD}/data/prices_for_municipality:/home/src/data/prices_for_municipality ${{ env.DOCKER_IMAGE }} poetry run python fetch_and_save.py
+
+        - name: Commit and push changes
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git commit -m "Update data"
+            git push
+
+  tests:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run tests
+        continue-on-error: true
+        run: docker run  ${{ env.DOCKER_IMAGE }} poetry run pytest test_refresh_prices.py
 
 
-      - name: install dependencies
-        run: poetry install --no-interaction
 
-      - name: execute py script
-        run: poetry run python src/fetch_and_save.py
-
-      - name: execute tests
-        run: poetry run pytest tests/test_refresh_prices.py
-
-      - name: commit files
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "update data" -a
-
-      - name: push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
