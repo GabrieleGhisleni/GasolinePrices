@@ -3,8 +3,8 @@ name: scraper-gasoline-italian-prices
 env:
   DOCKER_REGISTRY: ghcr.io
   DOCKER_USERNAME: gabrieleghisleni
-  DOCKER_REPOSITORY: open-gasoline
-  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/opengasoline:opengasoline-v2
+  DOCKER_REPOSITORY: gasolineprices
+  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/gasolineprices
 
 on:
   push:
