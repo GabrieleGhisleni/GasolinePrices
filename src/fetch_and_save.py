@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import pandas as pd
 from loguru import logger
 
-import src.utils as utils
+import utils
 
 
 @dataclass
