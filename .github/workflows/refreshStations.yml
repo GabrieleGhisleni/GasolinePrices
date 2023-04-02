@@ -38,7 +38,7 @@ jobs:
         run: docker run ghcr.io/GabrieleGhisleni/GasolinePrices/opengasoline:latest poetry run python src/refresh_details.py
 
   test:
-    needs: build
+    needs: [build, deploy]
     runs-on: ubuntu-latest
 
     steps:
@@ -48,7 +48,7 @@ jobs:
 
   post-deploy:
       runs-on: ubuntu-latest
-      needs: build
+      needs: [build, test]
 
       steps:
         - name: Commit and push changes
