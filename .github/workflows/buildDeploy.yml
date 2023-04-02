@@ -1,10 +1,8 @@
 name: build-and-deploy-docker-image
 
 env:
-  DOCKER_REGISTRY: ghcr.io
-  DOCKER_USERNAME: gabrieleghisleni
-  DOCKER_REPOSITORY: gasolineprices
-  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/gasolineprices
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 on:
   push:
@@ -32,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: DOCKER_IMAGE
+          images: ${{ env.DOCKER_IMAGE }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
