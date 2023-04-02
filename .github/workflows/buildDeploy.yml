@@ -3,8 +3,8 @@ name: build-and-deploy-docker-image
 env:
   DOCKER_REGISTRY: ghcr.io
   DOCKER_USERNAME: gabrieleghisleni
-  DOCKER_REPOSITORY: opengasoline
-  DOCKER_IMAGE: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}
+  DOCKER_REPOSITORY: gasolineprices
+  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/gasolineprices
 
 on:
   push:
