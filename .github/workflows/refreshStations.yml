@@ -29,10 +29,10 @@ jobs:
     needs: login-registry
     steps:
       - name: Refresh static stations
-        run: docker run ${{ env.DOCKER_IMAGE }} poetry run python static_stations.py
+        run: docker run -v ${PWD}/data:/data ${{ env.DOCKER_IMAGE }} poetry run python static_stations.py
 
       - name: Run refresh details script
-        run: docker run  ${{ env.DOCKER_IMAGE }} poetry run python refresh_details.py
+        run: docker run  -v ${PWD}/data:/data ${{ env.DOCKER_IMAGE }} poetry run python refresh_details.py
 
   test:
     needs:  deploy
