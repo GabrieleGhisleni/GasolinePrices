@@ -4,7 +4,7 @@ env:
   DOCKER_REGISTRY: ghcr.io
   DOCKER_USERNAME: gabrieleghisleni
   DOCKER_REPOSITORY: open-gasoline
-  DOCKER_IMAGE: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}
+  DOCKER_IMAGE: ghcr.io/gabrieleghisleni/open-gasoline
 
 on:
   push:
