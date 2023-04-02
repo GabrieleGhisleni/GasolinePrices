@@ -45,6 +45,9 @@ jobs:
       needs: test
 
       steps:
+        -   name: Checkout repository
+            uses: actions/checkout@v2
+
         - name: Commit and push changes
           run: |
             git config --local user.email "action@github.com"

@@ -7,8 +7,8 @@ env:
 on:
   push:
     branches:
-      - "*"
-#    if: github.ref == 'refs/heads/master'
+      - "master"
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
 jobs:
