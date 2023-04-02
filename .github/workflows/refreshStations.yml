@@ -1,6 +1,6 @@
 name: refresh stations
 env:
-  DOCKER_IMAGE_NAME: ghcr.io/GabrieleGhisleni/GasolinePrices/opengasoline:latest
+  DOCKER_IMAGE_NAME: ghcr.io/gabrieleghisleni/gasolineprices/opengasoline:latest
 
 on:
   push:
