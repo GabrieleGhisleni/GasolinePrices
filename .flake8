@@ -1,0 +1,6 @@
+[flake8]
+max-line-length = 119
+exclude = static,node_modules,__pycache__,components
+# E741: ambiguous variable name
+ignore = E203,E501,F405,W503,W504,E741,TC0,TC101,TC202,TC300,TC301,TC401
+
