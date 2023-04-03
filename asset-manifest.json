@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/GasolinePrices/static/css/main.f6799e87.css",
-    "main.js": "/GasolinePrices/static/js/main.5eb14af4.js",
+    "main.js": "/GasolinePrices/static/js/main.316cc545.js",
     "static/js/787.45b1f852.chunk.js": "/GasolinePrices/static/js/787.45b1f852.chunk.js",
     "index.html": "/GasolinePrices/index.html",
     "main.f6799e87.css.map": "/GasolinePrices/static/css/main.f6799e87.css.map",
-    "main.5eb14af4.js.map": "/GasolinePrices/static/js/main.5eb14af4.js.map",
+    "main.316cc545.js.map": "/GasolinePrices/static/js/main.316cc545.js.map",
     "787.45b1f852.chunk.js.map": "/GasolinePrices/static/js/787.45b1f852.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f6799e87.css",
-    "static/js/main.5eb14af4.js"
+    "static/js/main.316cc545.js"
   ]
 }
