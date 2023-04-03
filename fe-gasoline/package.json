@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.11",
     "bootstrap": "^5.2.3",
     "countapi-js": "^1.0.2",
+    "gh-pages": "^5.0.0",
     "jquery": "^3.6.4",
     "leaflet": "^1.9.3",
     "mathjs": "^11.7.0",
@@ -29,7 +30,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
