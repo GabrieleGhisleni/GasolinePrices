@@ -45,7 +45,6 @@ class FetchSave:
         start = dt.datetime.now()
 
         for idx, (_, row) in enumerate(self.municipalities_df.iterrows()):
-            logger.info(f"processing {row.COMUNE}")
             try:
                 self.process_and_save(row)
             except Exception as e:
@@ -89,7 +88,8 @@ class FetchSave:
 
         utils.write_json(f"{self.json_dir}/{res.get('comune')}.json", res)
 
-    def extract_info_to_dict(self, stations, carburante):
+    @staticmethod
+    def extract_info_to_dict(stations, carburante):
         is_self = 0 if carburante in ["Metano", "GPL"] else 1
         return (
             stations.loc[
