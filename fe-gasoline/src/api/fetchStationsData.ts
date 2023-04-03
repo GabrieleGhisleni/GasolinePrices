@@ -13,6 +13,7 @@ export interface StationDetail {
     Comune: string,
     idImpianto: number,
     geometry: Point
+    is_old?: boolean,
 }
 
 export interface Stations {
