@@ -1,4 +1,6 @@
 {
+  "homepage": "http://gabrieleGhisleni.github.io/GasolinePrices",
+
   "name": "fe-gasoline",
   "version": "0.1.0",
   "private": true,
