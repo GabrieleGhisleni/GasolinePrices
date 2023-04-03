@@ -7,9 +7,7 @@ env:
   DOCKER_IMAGE: ghcr.io/gabrieleghisleni/gasolineprices:master
 
 on:
-  push:
-    branches:
-        - "*"
+  workflow_dispatch:
   schedule:
     - cron: '15 3 */14 * *'
 
