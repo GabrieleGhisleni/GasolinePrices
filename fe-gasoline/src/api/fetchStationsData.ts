@@ -28,7 +28,7 @@ export interface SearchState {
     buffer_5: string,
     area_comune: string,
     area_coverage: "1" | "3" | "5",
-    number_stations: "5" | "10" | "15"
+    number_stations: "5" | "10" | "100"
     stations: Stations,
 }
 

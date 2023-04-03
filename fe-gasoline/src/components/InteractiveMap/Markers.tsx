@@ -8,7 +8,7 @@ import {Marker, Popup, Tooltip} from "react-leaflet";
 interface MarkersStationsProps {
     station: Stations,
     area_coverage: "1" | "3" | "5"
-    number_stations: "5" | "10" | "15"
+    number_stations: "5" | "10" | "100"
 
 }
 
@@ -19,7 +19,41 @@ const MarkersStations: React.FC<MarkersStationsProps> = ({station, area_coverage
         return (<div></div>)
     }
 
-    let selected_stations = station[area_coverage].slice(0, parseInt(number_stations))
+    let selected_stations
+
+    if (area_coverage === "3") {
+        let buffer_1_stations = station["1"]
+        let buffer_3_stations = station[area_coverage]
+        let buffer_3_stations_ids = buffer_3_stations.map((stat) => stat.idImpianto)
+        let buffer_1_stations_ids = buffer_1_stations.map((stat) => stat.idImpianto)
+        let buffer_1_stations_ids_not_in_buffer_3 = buffer_1_stations_ids.filter((id) => !buffer_3_stations_ids.includes(id))
+        let buffer_1_stations_not_in_buffer_3 = buffer_1_stations.filter((stat) => buffer_1_stations_ids_not_in_buffer_3.includes(stat.idImpianto))
+
+        selected_stations = buffer_3_stations.concat(buffer_1_stations_not_in_buffer_3)
+
+    }
+
+    else if (area_coverage === "5") {
+        let buffer_1_stations = station["1"]
+        let buffer_3_stations = station["3"]
+        let buffer_5_stations = station[area_coverage]
+        let buffer_5_stations_ids = buffer_5_stations.map((stat) => stat.idImpianto)
+        let buffer_3_stations_ids = buffer_3_stations.map((stat) => stat.idImpianto)
+        let buffer_1_stations_ids = buffer_1_stations.map((stat) => stat.idImpianto)
+        let buffer_1_stations_ids_not_in_buffer_3_5 = buffer_1_stations_ids.filter((id) => !buffer_3_stations_ids.includes(id))
+        let buffer_1_stations_not_in_buffer_3_5 = buffer_1_stations.filter((stat) => buffer_1_stations_ids_not_in_buffer_3_5.includes(stat.idImpianto))
+        let buffer_3_stations_ids_not_in_buffer_5 = buffer_3_stations_ids.filter((id) => !buffer_5_stations_ids.includes(id))
+        let buffer_3_stations_not_in_buffer_5 = buffer_3_stations.filter((stat) => buffer_3_stations_ids_not_in_buffer_5.includes(stat.idImpianto))
+
+        selected_stations = buffer_5_stations.concat(buffer_3_stations_not_in_buffer_5).concat(buffer_1_stations_not_in_buffer_3_5)
+
+    }
+    else {
+        selected_stations = station[area_coverage]
+    }
+
+
+    selected_stations = selected_stations.slice(0, parseInt(number_stations))
     let all_prices: number[] = selected_stations.map((stat) => stat.price)
     let price_mean = mean(all_prices)
     // @ts-ignore

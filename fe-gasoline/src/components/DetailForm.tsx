@@ -7,7 +7,7 @@ export interface FormState {
     comune: string;
     carburante: string;
     area_coverage: "1" | "3" | "5"
-    number_stations: "5" | "10" | "15"
+    number_stations: "5" | "10" | "100"
 }
 
 interface DetailFormProps {
@@ -129,7 +129,7 @@ const DetailForms: React.FC<DetailFormProps> = ({onSubmit, nameHints, smartRefre
                             <div>
 
                                 {
-                                    ["5", "10", "15"].map((value, index) => {
+                                    ["5", "10", "100"].map((value, index) => {
                                         return (
                                             <div className="ml-auto" key={"number_stations" + index}>
                                                 <FormGroup check inline>
